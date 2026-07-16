@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f20396c3-6554-49b7-922c-24731395916b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Virtual_Bank_System.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Virtual_Bank_System.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Account_Service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Account_Service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Account_Service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Account_Service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BFF_Service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/BFF_Service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BFF_Service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/BFF_Service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Logging_Service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Logging_Service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Logging_Service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Logging_Service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Transaction_Service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/TransactionServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/TransactionServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Transaction_Service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/User_Service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/User_Service/src/main/resources/application.properties" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 7
+}]]></component>
+  <component name="ProjectId" id="3GZn03CWM8bPx6eH5K6Xkjwjjbd" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true"
+  }
+}]]></component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f20396c3-6554-49b7-922c-24731395916b" name="Changes" comment="" />
+      <created>1784187733761</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1784187733761</updated>
+    </task>
+    <servers />
+  </component>
+</project>
