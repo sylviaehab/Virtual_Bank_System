@@ -1,0 +1,51 @@
+package com.example.Account_Service.controller;
+
+import com.example.Account_Service.dto.*;
+import com.example.Account_Service.service.AccountService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/accounts")
+@Tag(name = "Account Controller", description = "APIs for managing bank accounts")
+public class AccountController {
+    private AccountService accountService;
+
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
+    }
+
+    @Operation(
+            summary = "Create Account",
+            description = "Creates a new account for an existing user."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Account created successfully"),
+            @ApiResponse(responseCode = "404", description = "User not found"),
+            @ApiResponse(responseCode = "400", description = "Invalid request")
+    })
+    @PostMapping
+    public ResponseEntity<AccountCreateResponse> createAccount(@RequestBody @Valid AccountRequest accountRequest) {
+        return new ResponseEntity<>(accountService.addAccount(accountRequest), HttpStatus.CREATED);
+
+    }
+
+    @PutMapping("/transfer")
+    public ResponseEntity<TransferResponse> updateBalance(@RequestBody @Valid TransferRequest transferRequest) {
+        return new ResponseEntity<>(accountService.updateBalance(transferRequest), HttpStatus.OK);
+    }
+
+    @GetMapping("{accountId}")
+    public ResponseEntity<RetrieveResponse> getAccount(@PathVariable UUID accoundId) {
+        return new ResponseEntity<>(accountService.getAccount(accoundId), HttpStatus.OK);
+    }
+
+}
