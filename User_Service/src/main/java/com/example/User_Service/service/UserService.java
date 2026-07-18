@@ -1,13 +1,17 @@
 package com.example.User_Service.service;
 
 
-import com.example.User_Service.dto.RegisterRequest;
-import com.example.User_Service.dto.RegisterResponse;
+import com.example.User_Service.dto.*;
 import com.example.User_Service.entity.User;
 import com.example.User_Service.exception.DuplicateUserException;
+import com.example.User_Service.exception.InvalidCredentialsException;
+import com.example.User_Service.exception.UserNotFoundException;
 import com.example.User_Service.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -19,7 +23,7 @@ public class UserService {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
+    @Transactional
     public RegisterResponse register(RegisterRequest request) {
         if (userRepository.existsByUsername(request.username())) {
             throw new DuplicateUserException("Username already exists");
@@ -28,15 +32,15 @@ public class UserService {
         if (userRepository.existsByEmail(request.email())) {
             throw new DuplicateUserException("Email already exists");
         }
-
-        User user = new User();
-        user.setUsername(request.username());
-        user.setPasswordHash(
-                passwordEncoder.encode(request.password())
-        );
-        user.setEmail(request.email());
-        user.setFirstName(request.firstName());
-        user.setLastName(request.lastName());
+        User user = User.builder()
+                .username(request.username())
+                .passwordHash(
+                        passwordEncoder.encode(request.password())
+                )
+                .email(request.email())
+                .firstName(request.firstName())
+                .lastName(request.lastName())
+                .build();
 
         User savedUser = userRepository.save(user);
 
@@ -44,6 +48,49 @@ public class UserService {
                 savedUser.getId(),
                 savedUser.getUsername(),
                 "User registered successfully."
+        );
+    }
+
+
+    @Transactional(readOnly = true)
+    public LoginResponse login(LoginRequest request) {
+
+        User user = userRepository.findByUsername(request.username())
+                .orElseThrow(() -> new InvalidCredentialsException(
+                        "Invalid username or password."
+                ));
+
+        boolean passwordMatches = passwordEncoder.matches(
+                request.password(),
+                user.getPasswordHash()
+        );
+
+        if (!passwordMatches) {
+            throw new InvalidCredentialsException(
+                    "Invalid username or password."
+            );
+        }
+
+        return new LoginResponse(
+                user.getId(),
+                user.getUsername()
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public UserProfileResponse getUserProfile(UUID userId) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(
+                        "User with ID " + userId + " not found."
+                ));
+
+        return new UserProfileResponse(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getFirstName(),
+                user.getLastName()
         );
     }
 }

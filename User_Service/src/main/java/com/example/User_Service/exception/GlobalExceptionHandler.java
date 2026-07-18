@@ -21,8 +21,7 @@ public class GlobalExceptionHandler {
         ErrorResponse response = new ErrorResponse(
                 HttpStatus.CONFLICT.value(),
                 HttpStatus.CONFLICT.getReasonPhrase(),
-                exception.getMessage(),
-                Instant.now()
+                exception.getMessage()
         );
 
         return ResponseEntity
@@ -50,8 +49,53 @@ public class GlobalExceptionHandler {
         response.put("error", HttpStatus.BAD_REQUEST.getReasonPhrase());
         response.put("message", "Validation failed");
         response.put("fieldErrors", fieldErrors);
-        response.put("timestamp", Instant.now());
 
         return ResponseEntity.badRequest().body(response);
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidCredentials(
+            InvalidCredentialsException exception
+    ) {
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.UNAUTHORIZED.value(),
+                HttpStatus.UNAUTHORIZED.getReasonPhrase(),
+                exception.getMessage()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(response);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFound(
+            UserNotFoundException exception
+    ) {
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                exception.getMessage()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(response);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGeneralException(
+            Exception exception
+    ) {
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
+                "Something went wrong"
+
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(response);
     }
 }
