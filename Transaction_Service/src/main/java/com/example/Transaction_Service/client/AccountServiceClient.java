@@ -8,7 +8,6 @@ import com.example.Transaction_Service.dto.AccountBalanceResponse;
 
 @FeignClient(
         name = "account-service",
-        url = "${account-service.url}",
         fallback = AccountServiceClientFallback.class
 )
 public interface AccountServiceClient {

@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
-    private final TransactionRepository transactionRepository;
+      private final TransactionRepository transactionRepository;
       private final AccountServiceClient accountServiceClient;
 
     public TransactionServiceImpl(TransactionRepository transactionRepository, AccountServiceClient accountServiceClient) {
@@ -46,7 +46,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    @SuppressWarnings("null")
+    @Transactional
     public TransactionResponse deposit(DepositRequest request) {
         log.info("Processing deposit request: {}", request.getAccountNumber());
         String referenceNumber = generateReferenceNumber();
@@ -69,7 +69,7 @@ public class TransactionServiceImpl implements TransactionService {
    
     @Override
     @Transactional
-    @SuppressWarnings("null")
+    
     public TransactionResponse transfer(TransferRequest request) {
 
         log.info("Processing transfer request from {} to {}",
