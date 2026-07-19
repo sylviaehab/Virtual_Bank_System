@@ -1,0 +1,54 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: user-service-mysql
+
+    environment:
+      MYSQL_DATABASE: user_service_db
+      MYSQL_USER: user_service_app
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+
+    # Host port 3307 avoids conflict with an existing local MySQL on 3306.
+    ports:
+      - "3307:3306"
+
+    volumes:
+      - user-service-mysql-data:/var/lib/mysql
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mysqladmin ping -h localhost -u root -p$$MYSQL_ROOT_PASSWORD"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+    restart: unless-stopped
+
+  user-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: user-service
+
+    ports:
+      - "8081:8081"
+
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/user_service_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: user_service_app
+      DB_PASSWORD: ${DB_PASSWORD}
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+    restart: on-failure
+
+volumes:
+  user-service-mysql-data:
