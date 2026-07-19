@@ -16,6 +16,7 @@ public class AccountMapper {
         account.setAccountType(accountRequest.accountType());
         account.setAccountNumber(UUID.randomUUID());
         account.setBalance(accountRequest.initialBalance());
+        account.setStatus("ACTIVE");
 
         return account;
     }
@@ -35,4 +36,6 @@ public class AccountMapper {
                 account.getBalance(),
                 account.getStatus());
     }
+
+
 }
