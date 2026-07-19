@@ -1,6 +1,10 @@
 package com.example.Account_Service.controller;
 
-import com.example.Account_Service.dto.*;
+import com.example.Account_Service.client.dto.TransferRequest;
+import com.example.Account_Service.dto.AccountCreateResponse;
+import com.example.Account_Service.dto.AccountRequest;
+import com.example.Account_Service.dto.RetrieveResponse;
+import com.example.Account_Service.dto.TransferResponse;
 import com.example.Account_Service.service.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -11,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -43,9 +48,14 @@ public class AccountController {
         return new ResponseEntity<>(accountService.updateBalance(transferRequest), HttpStatus.OK);
     }
 
-    @GetMapping("{accountId}")
+    @GetMapping("/{accountId}")
     public ResponseEntity<RetrieveResponse> getAccount(@PathVariable UUID accoundId) {
         return new ResponseEntity<>(accountService.getAccount(accoundId), HttpStatus.OK);
+    }
+
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<List<RetrieveResponse>> getAllAccounts(@PathVariable UUID userId) {
+        return new ResponseEntity<>(accountService.getAllAccounts(userId), HttpStatus.OK);
     }
 
 }

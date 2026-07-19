@@ -15,9 +15,12 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
+@Table(name = "account")
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(
+            strategy = GenerationType.UUID
+    )
     @Column(name = "accountId")
     private UUID accountId;
     @Column(name = "accountNumber", nullable = false, unique = true)
