@@ -1,24 +1,24 @@
 package com.example.Transaction_Service.dto;
 
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import java.util.List;
-
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class TransactionHistoryResponse {
-
-    private List<TransactionResponse> transactions;
-    private int currentPage;
-    private int totalPages;
-    private long totalElements;
-    private boolean isLastPage;
-
+    private UUID transactionId;
+    private UUID fromAccountId;
+    private UUID toAccountId;
+    private BigDecimal amount;
+    private String description;
+    private String deliveryStatus;
+    private Instant timestamp;
 }

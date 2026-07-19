@@ -1,24 +1,17 @@
 package com.example.Transaction_Service.repository;
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.Transaction_Service.entity.Transaction;
-import com.example.Transaction_Service.entity.TransactionStatus;
+import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+import java.util.UUID;
 
-public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-    Optional<Transaction> findByReferenceNumber(String referenceNumber);
-      Page<Transaction> findBySourceAccountNumberOrDestinationAccountNumber(
-            String sourceAccountNumber,
-            String destinationAccountNumber,
-            Pageable pageable
-    );
+public interface TransactionRepository extends JpaRepository<Transaction, UUID> {
 
-    List<Transaction> findByStatus(TransactionStatus status);
-
-    boolean existsByReferenceNumber(String referenceNumber);
+    /**
+     * Retrieves every transaction where the given account is either the sender
+     * or the receiver, most recent first.
+     */
+    List<Transaction> findByFromAccountIdOrToAccountIdOrderByCreatedAtDesc(
+            UUID fromAccountId, UUID toAccountId);
 }

@@ -1,8 +1,7 @@
 package com.example.Transaction_Service.entity;
 
 public enum TransactionStatus {
-    PENDING,
+    INITIATED,
     SUCCESS,
-    FAILED,
-    REVERSED
+    FAILED
 }

@@ -4,12 +4,89 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f20396c3-6554-49b7-922c-24731395916b" name="Changes" comment="pom file">
+    <list default="true" id="7488d0b5-ca78-4ece-bc26-8eb702e5d117" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/Enum/AccountType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/ExceptionHandler/AccountNotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/ExceptionHandler/CreateException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/ExceptionHandler/GlobalError.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/ExceptionHandler/GlobalHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/ExceptionHandler/UserNotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/client/TransactionClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/client/UserClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/client/dto/UserResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/config/OpenAiConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/controller/AccountController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/controller/UserAccountController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/dto/AccountCreateResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/dto/AccountRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/dto/RetrieveResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/dto/TransferRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/dto/TransferResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/entity/Account.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/mapping/AccountMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/repository/AccountRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/service/AccountService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Eureka_Server/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Eureka_Server/Eureka_Server/HELP.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Eureka_Server/Eureka_Server/target/classes/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Eureka_Server/Eureka_Server/target/classes/com/example/Eureka_Server/EurekaServerApplication.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/User_Service/.dockerignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/User_Service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/User_Service/compose.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/User_Service/src/main/java/com/example/User_Service/config/PasswordConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/User_Service/src/main/java/com/example/User_Service/controller/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/User_Service/src/main/java/com/example/User_Service/dto/ErrorResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/User_Service/src/main/java/com/example/User_Service/dto/LoginRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/User_Service/src/main/java/com/example/User_Service/dto/LoginResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/User_Service/src/main/java/com/example/User_Service/dto/RegisterRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/User_Service/src/main/java/com/example/User_Service/dto/RegisterResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/User_Service/src/main/java/com/example/User_Service/dto/UserProfileResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/User_Service/src/main/java/com/example/User_Service/entity/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/User_Service/src/main/java/com/example/User_Service/exception/DuplicateUserException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/User_Service/src/main/java/com/example/User_Service/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/User_Service/src/main/java/com/example/User_Service/exception/InvalidCredentialsException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/User_Service/src/main/java/com/example/User_Service/exception/UserNotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/User_Service/src/main/java/com/example/User_Service/repository/UserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/User_Service/src/main/java/com/example/User_Service/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/Virtual_Bank_System.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Virtual_Bank_System.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Account_Service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Account_Service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/AccountServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/AccountServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Account_Service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Account_Service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eureka_Server/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eureka_Server/.idea/Eureka_Server.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eureka_Server/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eureka_Server/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Eureka_Server/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eureka_Server/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eureka_Server/Eureka_Server/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eureka_Server/Eureka_Server/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Transaction_Service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Transaction_Service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/service/TransactionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/service/TransactionServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Transaction_Service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/client/AccountServiceClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/client/AccountServiceClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/client/AccountServiceClientFallback.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/controller/TransactionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/controller/TransactionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/dto/AccountBalanceResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/dto/DepositRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/dto/TransactionHistoryResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/dto/TransactionHistoryResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/dto/TransferRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/dto/WithdrawRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/entity/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/entity/Transaction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/entity/TransactionStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/entity/TransactionStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/exception/ErrorResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/exception/ErrorResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/exception/InsufficientBalanceException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/exception/InvalidTransferException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/exception/TransactionNotFoundException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/repository/TransactionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/repository/TransactionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/service/TransactionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/service/TransactionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/service/TransactionServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Service/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/User_Service/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/User_Service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Service/src/main/java/com/example/User_Service/UserServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Service/src/main/java/com/example/User_Service/UserServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/User_Service/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,10 +95,15 @@
   </component>
   <component name="CopilotPersistence">
     <persistenceIdMap>
-      <entry key="_E:/javaProjects/Virtual_Bank_System" value="3GZn03CWM8bPx6eH5K6Xkjwjjbd" />
+      <entry key="_E:/javaProjects/Virtual_Bank_System" value="3GfZ1Tjc5CDU7EUS8g5MY8HQAKq" />
     </persistenceIdMap>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="Dev" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -40,57 +122,45 @@
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 7
 }</component>
-  <component name="ProjectId" id="3GZn03CWM8bPx6eH5K6Xkjwjjbd" />
+  <component name="ProjectId" id="3GfZ1Tjc5CDU7EUS8g5MY8HQAKq" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.TransactionServiceApplication.executor": "Run",
-    "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Transaction"
+    "git-widget-placeholder": "Merging Transaction"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="Virtual_Bank_System" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="Virtual_Bank_System" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="f20396c3-6554-49b7-922c-24731395916b" name="Changes" comment="" />
-      <created>1784187733761</created>
+      <changelist id="7488d0b5-ca78-4ece-bc26-8eb702e5d117" name="Changes" comment="" />
+      <created>1784364380224</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1784187733761</updated>
+      <updated>1784364380224</updated>
     </task>
-    <task id="LOCAL-00001" summary="pom file">
-      <option name="closed" value="true" />
-      <created>1784201476618</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1784201476618</updated>
-    </task>
-    <task id="LOCAL-00002" summary="pom file">
-      <option name="closed" value="true" />
-      <created>1784201692109</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1784201692109</updated>
-    </task>
-    <option name="localTasksCounter" value="3" />
     <servers />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="pom file" />
-    <option name="LAST_COMMIT_MESSAGE" value="pom file" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>
+      <option value=".github/instructions" />
       <option value=".github/instructions" />
     </instructionFileLocations>
     <promptFileLocations>

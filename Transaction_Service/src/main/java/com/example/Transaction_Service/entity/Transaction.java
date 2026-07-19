@@ -1,14 +1,13 @@
 package com.example.Transaction_Service.entity;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
@@ -20,58 +19,52 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "transactions")
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-
-@Data
 public class Transaction {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "transaction_id", updatable = false, nullable = false)
+    private UUID transactionId;
 
-    @Column(nullable = false, unique = true, updatable = false)
-    private String referenceNumber;
+    @Column(name = "from_account_id", nullable = false)
+    private UUID fromAccountId;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
-    private TransactionType transactionType;
+    @Column(name = "to_account_id", nullable = false)
+    private UUID toAccountId;
 
     @Column(nullable = false, precision = 19, scale = 4)
     private BigDecimal amount;
 
-    @Column(name = "source_account_number")
-    private String sourceAccountNumber;
-
-    @Column(name = "destination_account_number")
-    private String destinationAccountNumber;
+    private String description;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false)
     private TransactionStatus status;
 
-    @Column(length = 255)
-    private String remarks;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column
-    private LocalDateTime updatedAt;
+    @Column(name = "updated_at", nullable = false)
+    private Instant updatedAt;
 
     @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-        if (this.status == null) {
-            this.status = TransactionStatus.PENDING;
+    public void prePersist() {
+        if (transactionId == null) {
+            transactionId = UUID.randomUUID();
+        }
+        Instant now = Instant.now();
+        createdAt = now;
+        updatedAt = now;
+        if (status == null) {
+            status = TransactionStatus.INITIATED;
         }
     }
 
     @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-
+    public void preUpdate() {
+        updatedAt = Instant.now();
     }
 }

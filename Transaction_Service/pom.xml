@@ -82,12 +82,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-             <!-- eureka-->
-        <dependency>
+        <!-- Eureka client: registers this service and discovers others (e.g. account-service) -->
+<dependency>
     <groupId>org.springframework.cloud</groupId>
     <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-
+</dependency>
     </dependencies>
 
     <dependencyManagement>
