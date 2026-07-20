@@ -10,7 +10,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
 
     ports:
-      - "3308:3306"
+      - "3309:3306"
 
     volumes:
       - transaction-mysql-data:/var/lib/mysql
