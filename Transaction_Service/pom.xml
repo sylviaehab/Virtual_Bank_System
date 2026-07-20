@@ -62,6 +62,14 @@
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
+         <!-- Client-side load balancing: resolves the "account-service" logical
+             name (from @FeignClient) into an actual host:port via Eureka.
+             Without this, Feign tries to connect to a literal host called
+             "account-service" and fails to resolve DNS. -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
 
         <!-- Lombok -->
         <dependency>

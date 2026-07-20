@@ -11,8 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountResponse {
+
     private UUID accountId;
-    private String accountNumber;
+    private UUID accountNumber;
     private String accountType;
     private BigDecimal balance;
     private String status;
