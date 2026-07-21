@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7488d0b5-ca78-4ece-bc26-8eb702e5d117" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Eureka_Server/Eureka_Server/target/classes/com/example/Eureka_Server/EurekaServerApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/Eureka_Server/Eureka_Server/target/classes/com/example/Eureka_Server/EurekaServerApplication.class" afterDir="false" />
-    </list>
+    <list default="true" id="7488d0b5-ca78-4ece-bc26-8eb702e5d117" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -52,7 +50,7 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "docker"
+    "git-widget-placeholder": "schedular"
   }
 }]]></component>
   <component name="RunManager">

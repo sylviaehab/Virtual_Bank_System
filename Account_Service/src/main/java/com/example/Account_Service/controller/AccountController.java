@@ -58,8 +58,8 @@ public class AccountController {
     }
 
     @GetMapping("{accountId}")
-    public ResponseEntity<RetrieveResponse> getAccount(@PathVariable UUID accoundId) {
-        return new ResponseEntity<>(accountService.getAccount(accoundId), HttpStatus.OK);
+    public ResponseEntity<RetrieveResponse> getAccount(@PathVariable UUID accountId) {
+        return new ResponseEntity<>(accountService.getAccount(accountId), HttpStatus.OK);
     }
     @GetMapping
 public ResponseEntity<List<RetrieveResponse>> listAccounts(
