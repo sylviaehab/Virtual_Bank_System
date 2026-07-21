@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Account_Service.client.dto.TransferRequest;
@@ -56,15 +57,15 @@ public class AccountController {
         return new ResponseEntity<>(accountService.updateBalance(transferRequest), HttpStatus.OK);
     }
 
-  @GetMapping("/{accountId}")
-public ResponseEntity<RetrieveResponse> getAccount(
-        @PathVariable UUID accountId) {
-
-    return ResponseEntity.ok(accountService.getAccount(accountId));
-}
-    @GetMapping("/users/{userId}")
-    public ResponseEntity<List<RetrieveResponse>> getAllAccounts(@PathVariable UUID userId) {
-        return new ResponseEntity<>(accountService.getAllAccounts(userId), HttpStatus.OK);
+    @GetMapping("{accountId}")
+    public ResponseEntity<RetrieveResponse> getAccount(@PathVariable UUID accoundId) {
+        return new ResponseEntity<>(accountService.getAccount(accoundId), HttpStatus.OK);
     }
+    @GetMapping
+public ResponseEntity<List<RetrieveResponse>> listAccounts(
+        @RequestParam(required = false) String accountType,
+        @RequestParam(required = false) String status) {
+    return ResponseEntity.ok(accountService.listAccounts(accountType, status));
+}
 
 }

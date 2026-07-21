@@ -1,5 +1,12 @@
 package com.example.Account_Service.service;
 
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
+import com.example.Account_Service.Enum.AccountType;
 import com.example.Account_Service.ExceptionHandler.AccountNotFoundException;
 import com.example.Account_Service.ExceptionHandler.IllegalTransferException;
 import com.example.Account_Service.ExceptionHandler.InsufficientBalanceException;
@@ -14,12 +21,9 @@ import com.example.Account_Service.dto.TransferResponse;
 import com.example.Account_Service.entity.Account;
 import com.example.Account_Service.mapping.AccountMapper;
 import com.example.Account_Service.repository.AccountRepository;
+
 import feign.FeignException;
 import jakarta.transaction.Transactional;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.UUID;
 
 @Service
 public class AccountService {
@@ -106,4 +110,16 @@ public class AccountService {
         }
 
     }
+    public List<RetrieveResponse> listAccounts(String accountType, String status) {
+    List<Account> accounts;
+    if (accountType != null && status != null) {
+        AccountType type = AccountType.valueOf(accountType.toUpperCase());
+        accounts = accountRepository.findByAccountTypeAndStatus(type, status);
+    } else {
+        accounts = accountRepository.findAll();
+    }
+    return accounts.stream()
+            .map(mapper::toRetrieveResponse)
+            .collect(Collectors.toList());
+}
 }
