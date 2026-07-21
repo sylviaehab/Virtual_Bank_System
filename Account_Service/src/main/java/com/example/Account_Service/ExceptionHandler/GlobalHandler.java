@@ -2,20 +2,15 @@ package com.example.Account_Service.ExceptionHandler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.List;
 
 @RestControllerAdvice
 public class GlobalHandler {
-    @ExceptionHandler(NoResourceFoundException.class)
-    public ResponseEntity<GlobalError> handleNoReNoResourceException(NoResourceFoundException ex) {
-        return new ResponseEntity<>(new GlobalError(404, "Not Found",
-                ex.getMessage()), HttpStatus.NOT_FOUND);
-    }
 
     @ExceptionHandler(AccountNotFoundException.class)
     public ResponseEntity<GlobalError> handleAccountNotFoundException(AccountNotFoundException ex) {
@@ -43,7 +38,26 @@ public class GlobalHandler {
                 .map(error -> error.getField() + ": " + error.getDefaultMessage())
                 .toList();
 
-        String message = String.join(", ", errors);
-        return new ResponseEntity<>(new GlobalError(400, "Bad Request", message), HttpStatus.BAD_REQUEST);
+        String message = String.join("\n ", errors);
+        return new ResponseEntity<>(new GlobalError(400, "Bad Request",
+                message), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IllegalTransferException.class)
+    public ResponseEntity<GlobalError> handleIllegalTransferException(IllegalTransferException ex) {
+        return new ResponseEntity<>(new GlobalError(400, "Bad Request",
+                ex.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InsufficientBalanceException.class)
+    public ResponseEntity<GlobalError> handleInsufficientBalanceException(InsufficientBalanceException ex) {
+        return new ResponseEntity<>(new GlobalError(400, "Bad Request",
+                ex.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<GlobalError> handleAccountTypeException(HttpMessageNotReadableException ex) {
+        return new ResponseEntity<>(new GlobalError(400, "Bad Request",
+                "Invalid account type. Allowed values are: SAVINGS, CHECKING."), HttpStatus.BAD_REQUEST);
     }
 }

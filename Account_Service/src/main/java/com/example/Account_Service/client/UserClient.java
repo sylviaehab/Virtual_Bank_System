@@ -9,8 +9,8 @@ import java.util.UUID;
 
 @FeignClient(name = "User-Service")
 public interface UserClient {
-    @GetMapping("users/{userId}")
-    public UserResponse getUser(@PathVariable UUID userid);
+    @GetMapping("/users/{userId}/profile")
+    UserResponse getUser(@PathVariable UUID userId);
 
 
 }
