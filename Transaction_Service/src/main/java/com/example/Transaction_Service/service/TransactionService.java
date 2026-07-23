@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.example.Transaction_Service.kafka.KafkaProducerService;
 import com.example.Transaction_Service.client.AccountServiceClient;
 import com.example.Transaction_Service.dto.AccountTransferRequest;
 import com.example.Transaction_Service.dto.TransactionHistoryResponse;
@@ -32,6 +32,7 @@ public class TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final AccountServiceClient accountServiceClient;
+    private final KafkaProducerService kafkaProducerService;
 
     /**
      * POST /transactions/transfer/initiation
@@ -55,6 +56,12 @@ public class TransactionService {
                 .build();
 
         Transaction saved = transactionRepository.save(transaction);
+        kafkaProducerService.sendLog(
+        "TRANSACTION_INITIATED | id=" + saved.getTransactionId()
+        + " | from=" + saved.getFromAccountId()
+        + " | to=" + saved.getToAccountId()
+        + " | amount=" + saved.getAmount()
+);
         log.info("Transaction {} initiated: {} -> {} amount {}",
                 saved.getTransactionId(), saved.getFromAccountId(), saved.getToAccountId(), saved.getAmount());
 
@@ -94,14 +101,27 @@ public class TransactionService {
             transactionRepository.save(transaction);
             log.warn("Account Service rejected transfer for transaction {}: {}",
                     transactionId, ex.getMessage());
+                    kafkaProducerService.sendLog(
+        "TRANSACTION_FAILED | id=" + transactionId
+        + " | reason=" + ex.getMessage()
+);
             throw new BadRequestException("Invalid 'from' or 'to' account ID, or insufficient funds.");
         } catch (Exception ex) {
             transaction.setStatus(TransactionStatus.FAILED);
             transactionRepository.save(transaction);
+            kafkaProducerService.sendLog(
+        "TRANSACTION_FAILED | id=" + transactionId
+        + " | reason=" + ex.getMessage()
+);
             throw ex;
         }
 
         Transaction updated = transactionRepository.save(transaction);
+        kafkaProducerService.sendLog(
+        "TRANSACTION_EXECUTED | id=" + updated.getTransactionId()
+        + " | status=" + updated.getStatus()
+        + " | amount=" + updated.getAmount()
+);
         log.info("Transaction {} executed with status {}", updated.getTransactionId(), updated.getStatus());
 
         return TransferResponse.builder()
