@@ -46,6 +46,9 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+      
+      kafka:
+        condition: service_started  
 
 volumes:
   transaction-mysql-data:

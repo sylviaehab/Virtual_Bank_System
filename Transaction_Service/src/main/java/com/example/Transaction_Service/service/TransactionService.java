@@ -17,6 +17,7 @@ import com.example.Transaction_Service.entity.Transaction;
 import com.example.Transaction_Service.entity.TransactionStatus;
 import com.example.Transaction_Service.exception.BadRequestException;
 import com.example.Transaction_Service.exception.ResourceNotFoundException;
+import com.example.Transaction_Service.kafka.KafkaProducerService;
 import com.example.Transaction_Service.repository.TransactionRepository;
 
 import feign.FeignException;
@@ -32,6 +33,7 @@ public class TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final AccountServiceClient accountServiceClient;
+    private final KafkaProducerService kafkaProducerService;
 
     /**
      * POST /transactions/transfer/initiation
@@ -54,7 +56,22 @@ public class TransactionService {
                 .status(TransactionStatus.INITIATED)
                 .build();
 
-        Transaction saved = transactionRepository.save(transaction);
+       Transaction saved = transactionRepository.save(transaction);
+
+log.info("BEFORE KAFKA SEND");
+
+kafkaProducerService.sendLog(
+    "TRANSACTION_INITIATED | id=" + saved.getTransactionId()
+);
+
+log.info("AFTER KAFKA SEND");
+        
+        kafkaProducerService.sendLog(
+        "TRANSACTION_INITIATED | id=" + saved.getTransactionId()
+        + " | from=" + saved.getFromAccountId()
+        + " | to=" + saved.getToAccountId()
+        + " | amount=" + saved.getAmount()
+);
         log.info("Transaction {} initiated: {} -> {} amount {}",
                 saved.getTransactionId(), saved.getFromAccountId(), saved.getToAccountId(), saved.getAmount());
 
@@ -94,14 +111,27 @@ public class TransactionService {
             transactionRepository.save(transaction);
             log.warn("Account Service rejected transfer for transaction {}: {}",
                     transactionId, ex.getMessage());
+                    kafkaProducerService.sendLog(
+        "TRANSACTION_FAILED | id=" + transactionId
+        + " | reason=" + ex.getMessage()
+);
             throw new BadRequestException("Invalid 'from' or 'to' account ID, or insufficient funds.");
         } catch (Exception ex) {
             transaction.setStatus(TransactionStatus.FAILED);
             transactionRepository.save(transaction);
+            kafkaProducerService.sendLog(
+        "TRANSACTION_FAILED | id=" + transactionId
+        + " | reason=" + ex.getMessage()
+);
             throw ex;
         }
 
         Transaction updated = transactionRepository.save(transaction);
+        kafkaProducerService.sendLog(
+        "TRANSACTION_EXECUTED | id=" + updated.getTransactionId()
+        + " | status=" + updated.getStatus()
+        + " | amount=" + updated.getAmount()
+);
         log.info("Transaction {} executed with status {}", updated.getTransactionId(), updated.getStatus());
 
         return TransferResponse.builder()
