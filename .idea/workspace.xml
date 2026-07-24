@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7488d0b5-ca78-4ece-bc26-8eb702e5d117" name="Changes" comment="" />
+    <list default="true" id="7488d0b5-ca78-4ece-bc26-8eb702e5d117" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Transaction_Service/compose.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Transaction_Service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/scheduler/InterestScheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/scheduler/InterestScheduler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/service/TransactionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/service/TransactionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Transaction_Service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,7 +57,7 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "schedular"
+    "git-widget-placeholder": "Transaction__Kafka"
   }
 }]]></component>
   <component name="RunManager">

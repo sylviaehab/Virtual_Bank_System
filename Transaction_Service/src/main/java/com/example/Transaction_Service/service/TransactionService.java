@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.example.Transaction_Service.kafka.KafkaProducerService;
+
 import com.example.Transaction_Service.client.AccountServiceClient;
 import com.example.Transaction_Service.dto.AccountTransferRequest;
 import com.example.Transaction_Service.dto.TransactionHistoryResponse;
@@ -17,6 +17,7 @@ import com.example.Transaction_Service.entity.Transaction;
 import com.example.Transaction_Service.entity.TransactionStatus;
 import com.example.Transaction_Service.exception.BadRequestException;
 import com.example.Transaction_Service.exception.ResourceNotFoundException;
+import com.example.Transaction_Service.kafka.KafkaProducerService;
 import com.example.Transaction_Service.repository.TransactionRepository;
 
 import feign.FeignException;
@@ -55,7 +56,16 @@ public class TransactionService {
                 .status(TransactionStatus.INITIATED)
                 .build();
 
-        Transaction saved = transactionRepository.save(transaction);
+       Transaction saved = transactionRepository.save(transaction);
+
+log.info("BEFORE KAFKA SEND");
+
+kafkaProducerService.sendLog(
+    "TRANSACTION_INITIATED | id=" + saved.getTransactionId()
+);
+
+log.info("AFTER KAFKA SEND");
+        
         kafkaProducerService.sendLog(
         "TRANSACTION_INITIATED | id=" + saved.getTransactionId()
         + " | from=" + saved.getFromAccountId()
