@@ -1,6 +1,7 @@
 package com.example.Account_Service.dto;
 
-import com.example.Account_Service.Enum.AccountType;
+import com.example.Account_Service.enums.AccountType;
+import com.example.Account_Service.enums.StatusType;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -10,7 +11,7 @@ public record RetrieveResponse(
         UUID accountNumber,
         AccountType accountType,
         BigDecimal balance,
-        String status
+        StatusType status
 
 ) {
 }

@@ -1,4 +1,4 @@
-package com.example.Account_Service.ExceptionHandler;
+package com.example.Account_Service.exceptionHandler;
 
 public class CreateException extends RuntimeException {
     public CreateException(String message) {

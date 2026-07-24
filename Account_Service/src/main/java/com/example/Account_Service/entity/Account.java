@@ -1,6 +1,7 @@
 package com.example.Account_Service.entity;
 
-import com.example.Account_Service.Enum.AccountType;
+import com.example.Account_Service.enums.AccountType;
+import com.example.Account_Service.enums.StatusType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,7 +32,8 @@ public class Account {
     @Column(name = "balance", nullable = false)
     private BigDecimal balance;
     @Column(name = "status", nullable = false)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private StatusType status;
     @Column(name = "userId")
     private UUID userId;
 }

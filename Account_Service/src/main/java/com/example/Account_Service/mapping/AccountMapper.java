@@ -4,6 +4,8 @@ import com.example.Account_Service.dto.AccountCreateResponse;
 import com.example.Account_Service.dto.AccountRequest;
 import com.example.Account_Service.dto.RetrieveResponse;
 import com.example.Account_Service.entity.Account;
+import com.example.Account_Service.enums.AccountType;
+import com.example.Account_Service.enums.StatusType;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -13,10 +15,10 @@ public class AccountMapper {
     public Account toAccount(AccountRequest accountRequest) {
         Account account = new Account();
 
-        account.setAccountType(accountRequest.accountType());
+        account.setAccountType(AccountType.valueOf(accountRequest.accountType()));
         account.setAccountNumber(UUID.randomUUID());
         account.setBalance(accountRequest.initialBalance());
-        account.setStatus("ACTIVE");
+        account.setStatus(StatusType.ACTIVE);
 
         return account;
     }
