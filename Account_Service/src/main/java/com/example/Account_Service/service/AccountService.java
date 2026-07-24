@@ -1,16 +1,5 @@
 package com.example.Account_Service.service;
 
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
-import org.springframework.stereotype.Service;
-
-import com.example.Account_Service.Enum.AccountType;
-import com.example.Account_Service.ExceptionHandler.AccountNotFoundException;
-import com.example.Account_Service.ExceptionHandler.IllegalTransferException;
-import com.example.Account_Service.ExceptionHandler.InsufficientBalanceException;
-import com.example.Account_Service.ExceptionHandler.UserNotFoundException;
 import com.example.Account_Service.client.UserClient;
 import com.example.Account_Service.client.dto.TransferRequest;
 import com.example.Account_Service.client.dto.UserResponse;
@@ -19,11 +8,20 @@ import com.example.Account_Service.dto.AccountRequest;
 import com.example.Account_Service.dto.RetrieveResponse;
 import com.example.Account_Service.dto.TransferResponse;
 import com.example.Account_Service.entity.Account;
+import com.example.Account_Service.enums.AccountType;
+import com.example.Account_Service.exceptionHandler.AccountNotFoundException;
+import com.example.Account_Service.exceptionHandler.IllegalTransferException;
+import com.example.Account_Service.exceptionHandler.InsufficientBalanceException;
+import com.example.Account_Service.exceptionHandler.UserNotFoundException;
 import com.example.Account_Service.mapping.AccountMapper;
 import com.example.Account_Service.repository.AccountRepository;
-
 import feign.FeignException;
 import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class AccountService {
@@ -67,8 +65,6 @@ public class AccountService {
         fromAccount.setBalance(fromAccount.getBalance().subtract(transferRequest.amount()));
         toAccount.setBalance(toAccount.getBalance().add(transferRequest.amount()));
 
-        accountRepository.save(fromAccount);
-        accountRepository.save(toAccount);
 
         return new TransferResponse("Account updated successfully.");
     }
@@ -110,16 +106,17 @@ public class AccountService {
         }
 
     }
+
     public List<RetrieveResponse> listAccounts(String accountType, String status) {
-    List<Account> accounts;
-    if (accountType != null && status != null) {
-        AccountType type = AccountType.valueOf(accountType.toUpperCase());
-        accounts = accountRepository.findByAccountTypeAndStatus(type, status);
-    } else {
-        accounts = accountRepository.findAll();
+        List<Account> accounts;
+        if (accountType != null && status != null) {
+            AccountType type = AccountType.valueOf(accountType.toUpperCase());
+            accounts = accountRepository.findByAccountTypeAndStatus(type, status);
+        } else {
+            accounts = accountRepository.findAll();
+        }
+        return accounts.stream()
+                .map(mapper::toRetrieveResponse)
+                .collect(Collectors.toList());
     }
-    return accounts.stream()
-            .map(mapper::toRetrieveResponse)
-            .collect(Collectors.toList());
-}
 }
