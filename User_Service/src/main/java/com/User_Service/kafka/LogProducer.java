@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
-import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.time.Instant;
 
@@ -16,18 +16,19 @@ public class LogProducer {
     private static final Logger logger =
             LoggerFactory.getLogger(LogProducer.class);
 
+    private static final String SERVICE_NAME = "user-service";
+
     private final KafkaTemplate<String, String> kafkaTemplate;
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMapper;
     private final String topicName;
 
     public LogProducer(
             KafkaTemplate<String, String> kafkaTemplate,
-            ObjectMapper objectMapper,
-            @Value("${app.kafka.log-topic}")
-            String topicName
+            JsonMapper jsonMapper,
+            @Value("${app.kafka.log-topic}") String topicName
     ) {
         this.kafkaTemplate = kafkaTemplate;
-        this.objectMapper = objectMapper;
+        this.jsonMapper = jsonMapper;
         this.topicName = topicName;
     }
 
@@ -40,32 +41,36 @@ public class LogProducer {
                     message,
                     messageType,
                     Instant.now(),
-                    "user-service"
+                    SERVICE_NAME
             );
 
             String payload =
-                    objectMapper.writeValueAsString(logMessage);
+                    jsonMapper.writeValueAsString(logMessage);
 
-            kafkaTemplate
-                    .send(topicName, payload)
+            kafkaTemplate.send(topicName, payload)
                     .whenComplete((result, exception) -> {
                         if (exception != null) {
+                            /*
+                             * Kafka logging failed, but the User API
+                             * must continue working.
+                             */
                             logger.error(
                                     "Failed to publish Kafka log",
                                     exception
                             );
-                        } else {
-                            logger.debug(
-                                    "Kafka log published to {}",
-                                    topicName
-                            );
+                            return;
                         }
+
+                        logger.debug(
+                                "Published Kafka log to topic {}",
+                                topicName
+                        );
                     });
 
         } catch (Exception exception) {
 
             logger.error(
-                    "Could not serialize Kafka log",
+                    "Could not create or publish Kafka log",
                     exception
             );
         }

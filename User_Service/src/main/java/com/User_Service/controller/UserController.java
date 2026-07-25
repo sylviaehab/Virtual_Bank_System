@@ -1,7 +1,6 @@
 package com.User_Service.controller;
 
 import com.User_Service.dto.*;
-import com.User_Service.dto.*;
 import com.User_Service.kafka.LogProducer;
 import com.User_Service.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -76,13 +75,22 @@ public class UserController {
     public ResponseEntity<RegisterResponse> register(
             @Valid @RequestBody RegisterRequest request
     ) {
+        logProducer.send(
+                "REQUEST",
+                "User registration request received."
+        );
+
         RegisterResponse response = userService.register(request);
+
+        logProducer.send(
+                "RESPONSE",
+                "User registered successfully."
+        );
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(response);
     }
-
     @Operation(
             summary = "Log in a user",
             description = """
@@ -124,11 +132,20 @@ public class UserController {
     public ResponseEntity<LoginResponse> login(
             @Valid @RequestBody LoginRequest request
     ) {
+        logProducer.send(
+                "REQUEST",
+                "User login request received."
+        );
+
         LoginResponse response = userService.login(request);
+
+        logProducer.send(
+                "RESPONSE",
+                "User login completed successfully."
+        );
 
         return ResponseEntity.ok(response);
     }
-
     @Operation(
             summary = "Get user profile",
             description = "Retrieves profile information using the user's UUID."
@@ -157,8 +174,18 @@ public class UserController {
     public ResponseEntity<UserProfileResponse> getUserProfile(
             @PathVariable UUID userId
     ) {
+        logProducer.send(
+                "REQUEST",
+                "User profile requested. userId=" + userId
+        );
+
         UserProfileResponse response =
                 userService.getUserProfile(userId);
+
+        logProducer.send(
+                "RESPONSE",
+                "User profile returned successfully. userId=" + userId
+        );
 
         return ResponseEntity.ok(response);
     }
