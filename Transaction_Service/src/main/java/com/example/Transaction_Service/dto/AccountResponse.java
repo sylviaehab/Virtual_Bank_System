@@ -2,6 +2,7 @@ package com.example.Transaction_Service.dto;
 
 import java.math.BigDecimal;
 import java.util.UUID;
+import com.example.Transaction_Service.enums.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +15,7 @@ public class AccountResponse {
 
     private UUID accountId;
     private UUID accountNumber;
-    private String accountType;
+    private AccountType accountType;
     private BigDecimal balance;
-    private String status;
+    private StatusType status;
 }

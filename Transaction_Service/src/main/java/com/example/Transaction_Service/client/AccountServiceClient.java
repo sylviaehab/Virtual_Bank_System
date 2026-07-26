@@ -3,6 +3,8 @@ package com.example.Transaction_Service.client;
 import java.util.List;
 import java.util.UUID;
 
+import com.example.Transaction_Service.enums.AccountType;
+import com.example.Transaction_Service.enums.StatusType;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +37,7 @@ public interface AccountServiceClient {
 
     @GetMapping("/accounts")
     List<AccountResponse> listAccounts(
-            @RequestParam("accountType") String accountType,
-            @RequestParam("status") String status);
+            @RequestParam("accountType") AccountType accountType,
+            @RequestParam("status") StatusType status);
 }
 

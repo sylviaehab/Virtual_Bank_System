@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import com.example.Transaction_Service.enums.AccountType;
+import com.example.Transaction_Service.enums.StatusType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -92,7 +94,7 @@ public class InterestScheduler {
         try {
 
             List<AccountResponse> systemAccounts =
-                    accountServiceClient.listAccounts("SYSTEM", "ACTIVE");
+                    accountServiceClient.listAccounts(AccountType.SYSTEM, StatusType.ACTIVE);
 
             if (systemAccounts == null || systemAccounts.isEmpty()) {
                 return null;
@@ -113,7 +115,7 @@ public class InterestScheduler {
         try {
 
             List<AccountResponse> accounts =
-                    accountServiceClient.listAccounts("SAVINGS", "ACTIVE");
+                    accountServiceClient.listAccounts(AccountType.SAVINGS, StatusType.ACTIVE);
 
             return accounts == null
                     ? Collections.emptyList()

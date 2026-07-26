@@ -19,6 +19,7 @@ public class AccountMapper {
         account.setAccountNumber(UUID.randomUUID());
         account.setBalance(accountRequest.initialBalance());
         account.setStatus(StatusType.ACTIVE);
+        account.setUserId(accountRequest.userId());
 
         return account;
     }

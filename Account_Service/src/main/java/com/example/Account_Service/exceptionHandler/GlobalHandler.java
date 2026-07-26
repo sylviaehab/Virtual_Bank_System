@@ -2,7 +2,6 @@ package com.example.Account_Service.exceptionHandler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -55,9 +54,10 @@ public class GlobalHandler {
                 ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<GlobalError> handleAccountTypeException(HttpMessageNotReadableException ex) {
+
+    @ExceptionHandler(InactiveAccountException.class)
+    public ResponseEntity<GlobalError> handleInactiveAccountException(InactiveAccountException ex) {
         return new ResponseEntity<>(new GlobalError(400, "Bad Request",
-                "Invalid account type. Allowed values are: SAVINGS, CHECKING."), HttpStatus.BAD_REQUEST);
+                ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 }

@@ -1,7 +1,7 @@
 package com.example.Account_Service.dto;
 
 import com.example.Account_Service.enums.AccountType;
-import com.example.Account_Service.validation.ValidEnum;
+import com.example.Account_Service.validation.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -16,6 +16,7 @@ public record AccountRequest(
                 enumClass = AccountType.class,
                 message = "Valid Account Types :SAVINGS, CHECKING, SYSTEM"
         )
+
         @NotBlank(message = "AccountType  is required")
         String accountType,
         @NotNull(message = "Initial_Balance is required")
