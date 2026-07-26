@@ -1,5 +1,4 @@
-package com.example.Account_Service.Enum;
-
+package com.example.Transaction_Service.enums;
 
 
 public enum AccountType {

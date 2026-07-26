@@ -1,16 +1,15 @@
 package com.example.Account_Service.config;
 
-import java.math.BigDecimal;
-import java.util.UUID;
-
+import com.example.Account_Service.entity.Account;
+import com.example.Account_Service.enums.AccountType;
+import com.example.Account_Service.enums.StatusType;
+import com.example.Account_Service.repository.AccountRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.example.Account_Service.Enum.AccountType;
-import com.example.Account_Service.entity.Account;
-import com.example.Account_Service.repository.AccountRepository;
-
-import lombok.RequiredArgsConstructor;
+import java.math.BigDecimal;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -33,7 +32,7 @@ public class SystemAccountInitializer implements CommandLineRunner {
         systemAccount.setAccountType(AccountType.SYSTEM);
         systemAccount.setAccountNumber(UUID.randomUUID());
         systemAccount.setBalance(new BigDecimal("999999999.00"));
-        systemAccount.setStatus("ACTIVE");
+        systemAccount.setStatus(StatusType.ACTIVE);
         // userId intentionally left null - this account has no owning user
 
         accountRepository.save(systemAccount);
