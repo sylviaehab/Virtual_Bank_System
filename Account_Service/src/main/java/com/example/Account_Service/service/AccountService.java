@@ -42,7 +42,7 @@ public class AccountService {
 
     public AccountCreateResponse addAccount(AccountRequest accountRequest) {
 
-        UserResponse user = checkUser(accountRequest.userId());
+        checkUser(accountRequest.userId());
 
         Account newAccount = mapper.toAccount(accountRequest);
         Account savedAccount = accountRepository.save(newAccount);
@@ -84,13 +84,11 @@ public class AccountService {
 
     public List<RetrieveResponse> getAllAccounts(UUID userId) {
 
-        UserResponse user = checkUser(userId);
+        checkUser(userId);
 
-        List<RetrieveResponse> accounts = accountRepository.findAll().stream()
-                .map(account -> mapper.toRetrieveResponse(account))
+        return accountRepository.findAll().stream()
+                .map(mapper::toRetrieveResponse)
                 .toList();
-
-        return accounts;
     }
 
     private Account checkAccount(UUID accountId) {
@@ -101,15 +99,26 @@ public class AccountService {
 
     }
 
-    private UserResponse checkUser(UUID userId) {
+    private void checkUser(UUID userId) {
         try {
-            return userClient.getUser(userId);
+            userClient.getUser(userId);
         } catch (FeignException.NotFound ex) {
             throw new UserNotFoundException(
                     "User with ID " + userId.toString() + " not found."
             );
         }
 
+    }
+
+    public List<RetrieveResponse> getUserAccounts(UUID userId) {
+        checkUser(userId);
+        List<RetrieveResponse> accounts = accountRepository.findByUserId(userId).stream()
+                .map(mapper::toRetrieveResponse)
+                .toList();
+        if (accounts.isEmpty()) {
+            throw new AccountNotFoundException("No accounts found for user ID " + userId);
+        }
+        return accounts;
     }
 
     public List<RetrieveResponse> listAccounts(AccountType accountType, StatusType status) {
