@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7488d0b5-ca78-4ece-bc26-8eb702e5d117" name="Changes" comment="logging service implementation done ,database connection done,kafka not working">
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/Virtual_Bank_System.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/Enum/AccountType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/ExceptionHandler/AccountNotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/ExceptionHandler/CreateException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/ExceptionHandler/GlobalError.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/ExceptionHandler/GlobalHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/ExceptionHandler/IllegalTransferException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/ExceptionHandler/InsufficientBalanceException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/ExceptionHandler/UserNotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/client/UserClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/client/dto/TransferRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/client/dto/UserResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/config/OpenAiConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/config/SystemAccountInitializer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/controller/AccountController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/dto/AccountCreateResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/dto/AccountRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/dto/RetrieveResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/dto/TransferResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/entity/Account.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/mapping/AccountMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/repository/AccountRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/service/AccountService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Eureka_Server/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Eureka_Server/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Eureka_Server/Eureka_Server/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Eureka_Server/Eureka_Server/HELP.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Eureka_Server/Eureka_Server/target/Eureka_Server-0.0.1-SNAPSHOT.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Eureka_Server/Eureka_Server/target/Eureka_Server-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Eureka_Server/Eureka_Server/target/classes/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Eureka_Server/Eureka_Server/target/classes/com/example/Eureka_Server/EurekaServerApplication.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Eureka_Server/Eureka_Server/target/maven-archiver/pom.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Eureka_Server/Eureka_Server/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Eureka_Server/Eureka_Server/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Eureka_Server/Eureka_Server/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Eureka_Server/Eureka_Server/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Eureka_Server/Eureka_Server/target/test-classes/com/example/Eureka_Server/EurekaServerApplicationTests.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logging_Service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Logging_Service/compose.logging.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transaction_Service/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transaction_Service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/client/AccountServiceClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/config/KafkaConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/controller/TransactionController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/dto/AccountResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/dto/AccountTransferRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/dto/TransactionHistoryResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/dto/TransactionResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/dto/TransferExecutionRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/dto/TransferInitiationRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/dto/TransferInitiationResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/dto/TransferResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/entity/Transaction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/entity/TransactionStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/entity/TransactionType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/exception/BadRequestException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/exception/ErrorResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/exception/ResourceNotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/kafka/KafkaProducerService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/repository/TransactionRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/scheduler/InterestScheduler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/service/TransactionService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Account_Service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Account_Service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/AccountServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/Account_Service/src/main/java/com/example/Account_Service/AccountServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Account_Service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Account_Service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BFF_Service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/BFF_Service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BFF_Service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/BFF_Service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eureka_Server/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eureka_Server/.idea/Eureka_Server.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eureka_Server/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eureka_Server/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Eureka_Server/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eureka_Server/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eureka_Server/Eureka_Server/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eureka_Server/Eureka_Server/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/Eureka_Server/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eureka_Server/Eureka_Server/src/main/java/com/example/Eureka_Server/EurekaServerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/Eureka_Server/Eureka_Server/src/main/java/com/example/Eureka_Server/EurekaServerApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Logging_Service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Logging_Service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Transaction_Service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/TransactionServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/Transaction_Service/src/main/java/com/example/Transaction_Service/TransactionServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Transaction_Service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Transaction_Service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Service/compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Transaction_Service/compose.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Service/src/main/java/com/User_Service/UserServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Service/src/main/java/com/User_Service/UserServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Service/src/main/java/com/User_Service/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Service/src/main/java/com/User_Service/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User_Service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/User_Service/src/main/resources/application.properties" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_E:/javaProjects/Virtual_Bank_System" value="3GfZ1Tjc5CDU7EUS8g5MY8HQAKq" />
+    </persistenceIdMap>
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="48" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dockerfile" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="Dev" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;sylviaehab&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/sylviaehab/Virtual_Bank_System.git",
+    "accountId": "9fa2c58b-7ee7-4455-b797-24ed846004ee"
+  }
+}]]></component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0002985393003734" />
+      <entry key="MS500" value="1.2415507664394327" />
+      <entry key="S2" value="2.569775805437037" />
+      <entry key="S5" value="4.111465966764597" />
+      <entry key="S10" value="6.429745476180577" />
+      <entry key="S30" value="11.121134702067991" />
+      <entry key="S60" value="13.24357872930987" />
+      <entry key="M2" value="14.531266266410448" />
+      <entry key="M5" value="15.391935045079379" />
+      <entry key="M10" value="15.848899243848553" />
+      <entry key="M15" value="16.401640483371715" />
+      <entry key="M30" value="18.23681371728325" />
+      <entry key="H1" value="20.537831709419383" />
+      <entry key="H2" value="22.401168375452567" />
+      <entry key="H4" value="23.592560344587675" />
+      <entry key="D1" value="24.748825936587544" />
+      <entry key="W1" value="24.963688832759665" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="0.0" />
+      <entry key="M2" value="0.0" />
+      <entry key="M5" value="0.0" />
+      <entry key="M10" value="0.0" />
+      <entry key="M15" value="0.0" />
+      <entry key="M30" value="0.0" />
+      <entry key="H1" value="0.0" />
+      <entry key="H2" value="0.0" />
+      <entry key="H4" value="0.0" />
+      <entry key="D1" value="0.0" />
+      <entry key="W1" value="0.0" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.7323119054992755" />
+      <entry key="MS500" value="1.1691299744695067" />
+      <entry key="S2" value="2.466448548456727" />
+      <entry key="S5" value="4.021607643734845" />
+      <entry key="S10" value="6.358755453280925" />
+      <entry key="S30" value="11.083531692014688" />
+      <entry key="S60" value="13.221927646275896" />
+      <entry key="M2" value="14.519603359074864" />
+      <entry key="M5" value="15.387050237378194" />
+      <entry key="M10" value="15.846412198520655" />
+      <entry key="M15" value="16.39996144708253" />
+      <entry key="M30" value="18.23594605992112" />
+      <entry key="H1" value="20.53738134407993" />
+      <entry key="H2" value="22.400936611803388" />
+      <entry key="H4" value="23.59244237185316" />
+      <entry key="D1" value="24.748805937324722" />
+      <entry key="W1" value="24.963685966785665" />
+    </decayedShown>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="3GfZ1Tjc5CDU7EUS8g5MY8HQAKq" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "Application.UserServiceApplication.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "Spring Boot.LoggingServiceApplication.executor": "Run",
+    "Spring Boot.UserServiceApplication.executor": "Run",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "Merging user__service",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RunManager" selected="Spring Boot.UserServiceApplication">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="Virtual_Bank_System" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="Virtual_Bank_System" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+    <configuration name="LoggingServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="Logging_Service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.LoggingService.LoggingServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <envs>
+        <env name="DB_URL" value="jdbc:mysql://localhost:3307/user_service_db?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC" />
+        <env name="DB_USERNAME" value="user_service_app" />
+        <env name="DB_PASSWORD" value="123" />
+      </envs>
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="User_Service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.User_Service.UserServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Spring Boot.LoggingServiceApplication" />
+      <item itemvalue="Spring Boot.UserServiceApplication" />
+    </list>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-37e91769500f-intellij.indexing.shared.core-IU-261.26222.65" />
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-IU-261.26222.65" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7488d0b5-ca78-4ece-bc26-8eb702e5d117" name="Changes" comment="" />
+      <created>1784364380224</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1784364380224</updated>
+      <workItem from="1785112364814" duration="138000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="logging service implementation done ,database connection done,kafka not working" />
+    <option name="LAST_COMMIT_MESSAGE" value="logging service implementation done ,database connection done,kafka not working" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>

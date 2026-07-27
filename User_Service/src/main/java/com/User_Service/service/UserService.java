@@ -2,7 +2,6 @@ package com.User_Service.service;
 
 
 import com.User_Service.dto.*;
-import com.example.User_Service.dto.*;
 import com.User_Service.entity.User;
 import com.User_Service.exception.DuplicateUserException;
 import com.User_Service.exception.InvalidCredentialsException;
