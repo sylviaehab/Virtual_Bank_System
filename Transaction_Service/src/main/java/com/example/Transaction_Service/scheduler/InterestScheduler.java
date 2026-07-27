@@ -6,8 +6,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import com.example.Transaction_Service.enums.AccountType;
-import com.example.Transaction_Service.enums.StatusType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -18,6 +16,8 @@ import com.example.Transaction_Service.dto.AccountResponse;
 import com.example.Transaction_Service.dto.AccountTransferRequest;
 import com.example.Transaction_Service.entity.Transaction;
 import com.example.Transaction_Service.entity.TransactionStatus;
+import com.example.Transaction_Service.enums.AccountType;
+import com.example.Transaction_Service.enums.StatusType;
 import com.example.Transaction_Service.kafka.KafkaProducerService;
 import com.example.Transaction_Service.repository.TransactionRepository;
 

@@ -4,32 +4,23 @@ services:
     build:
       context: ./Eureka_Server/Eureka_Server
       dockerfile: Dockerfile
-
     container_name: eureka-server
-
     ports:
       - "8761:8761"
-
     restart: unless-stopped
-
 
   user-mysql:
     image: mysql:8.4
-
     container_name: user-service-mysql
-
     environment:
       MYSQL_DATABASE: user_service_db
       MYSQL_USER: user_service_app
       MYSQL_PASSWORD: ${USER_DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-
     ports:
       - "3307:3306"
-
     volumes:
       - user-service-mysql-data:/var/lib/mysql
-
     healthcheck:
       test:
         [
@@ -41,50 +32,36 @@ services:
       retries: 10
       start_period: 20s
 
-
   user-service:
     build:
       context: ./User_Service
       dockerfile: Dockerfile
-
     container_name: user-service
-
     ports:
       - "8081:8081"
-
     environment:
       DB_URL: jdbc:mysql://user-mysql:3306/user_service_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       DB_USERNAME: user_service_app
       DB_PASSWORD: ${USER_DB_PASSWORD}
-
     depends_on:
       user-mysql:
         condition: service_healthy
-
       eureka-server:
         condition: service_started
-
     restart: on-failure
-
-
 
   account-mysql:
     image: mysql:8.4
-
     container_name: account-service-mysql
-
     environment:
       MYSQL_DATABASE: account_service_db
       MYSQL_USER: account_service_app
       MYSQL_PASSWORD: ${ACCOUNT_DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-
     ports:
       - "3308:3306"
-
     volumes:
       - account-service-db:/var/lib/mysql
-
     healthcheck:
       test:
         [
@@ -94,53 +71,37 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
-
-
 
   account-service:
     build:
       context: ./Account_Service
       dockerfile: Dockerfile
-
     container_name: account-service
-
     ports:
       - "8082:8082"
-
     environment:
       DB_URL: jdbc:mysql://account-mysql:3306/account_service_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       DB_USERNAME: account_service_app
       DB_PASSWORD: ${ACCOUNT_DB_PASSWORD}
-
     depends_on:
       account-mysql:
         condition: service_healthy
-
       eureka-server:
         condition: service_started
-
     restart: on-failure
-
-
-
 
   transaction-mysql:
     image: mysql:8.4
-
     container_name: transaction-service-mysql
-
     environment:
       MYSQL_DATABASE: transaction_service_db
       MYSQL_USER: transaction_service_app
       MYSQL_PASSWORD: ${TRANSACTION_DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-
     ports:
       - "3309:3306"
-
     volumes:
       - transaction-service-db:/var/lib/mysql
-
     healthcheck:
       test:
         [
@@ -151,128 +112,67 @@ services:
       timeout: 5s
       retries: 10
 
-
-
-
   transaction-service:
     build:
       context: ./Transaction_Service
       dockerfile: Dockerfile
-
     container_name: transaction-service
-
     ports:
       - "8083:8083"
-
     environment:
-
       DB_URL: jdbc:mysql://transaction-mysql:3306/transaction_service_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-
       DB_USERNAME: transaction_service_app
-
       DB_PASSWORD: ${TRANSACTION_DB_PASSWORD}
-
-
-      # Kafka
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-
       TRANSACTION_KAFKA_TOPIC: transaction-logs
-
-
     depends_on:
-
       transaction-mysql:
         condition: service_healthy
-
       eureka-server:
         condition: service_started
-
       kafka:
         condition: service_started
-
-
     restart: on-failure
 
-
-
-
-
   zookeeper:
-
     image: confluentinc/cp-zookeeper:7.4.4
-
     container_name: zookeeper
-
-
     environment:
-
       ZOOKEEPER_CLIENT_PORT: 2181
-
       ZOOKEEPER_TICK_TIME: 2000
-
-
     ports:
-
       - "2181:2181"
 
-
-
-
-
   kafka:
-
     image: confluentinc/cp-kafka:7.4.4
-
     container_name: kafka
-
-
     depends_on:
-
       - zookeeper
-
-
     ports:
-
       - "9092:9092"
-
-
     environment:
-
-
       KAFKA_BROKER_ID: 1
-
-
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-
-
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
-
-
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
-
-
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
-
-
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-
-
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-
-
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-
-
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
 
-
-
-
+  wso2am:
+    image: wso2/wso2am:4.4.0
+    container_name: wso2am
+    ports:
+      - "9443:9443"
+      - "8243:8243"
+    volumes:
+      - wso2am-data:/home/wso2carbon/wso2am-4.4.0
+    restart: unless-stopped
 
 volumes:
-
   user-service-mysql-data:
-
   account-service-db:
-
   transaction-service-db:
+  wso2am-data:
