@@ -24,7 +24,7 @@ import java.util.UUID;
 @RequestMapping("/accounts")
 @Tag(name = "Account Controller", description = "APIs for managing bank accounts")
 public class AccountController {
-    private AccountService accountService;
+    private final AccountService accountService;
 
     public AccountController(AccountService accountService) {
         this.accountService = accountService;
@@ -60,6 +60,11 @@ public class AccountController {
             @RequestParam(required = false) AccountType accountType,
             @RequestParam(required = false) StatusType status) {
         return ResponseEntity.ok(accountService.listAccounts(accountType, status));
+    }
+
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<List<RetrieveResponse>> getUserAccounts(@PathVariable UUID userId) {
+        return new ResponseEntity<>(accountService.getUserAccounts(userId), HttpStatus.OK);
     }
 
 }
