@@ -40,8 +40,7 @@ public class LogProducer {
             LogMessage logMessage = new LogMessage(
                     message,
                     messageType,
-                    Instant.now(),
-                    SERVICE_NAME
+                    Instant.now()
             );
 
             String payload =

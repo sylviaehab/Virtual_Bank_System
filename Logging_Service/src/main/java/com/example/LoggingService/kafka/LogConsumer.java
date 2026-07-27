@@ -39,11 +39,7 @@ public class LogConsumer {
 
             loggingService.save(message);
 
-            logger.info(
-                    "Stored {} log from {}",
-                    message.messageType(),
-                    message.serviceName()
-            );
+
         } catch (Exception exception) {
 
             logger.error(

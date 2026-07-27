@@ -19,7 +19,6 @@ public class LoggingService {
 
     public LogEntry save(LogMessage message) {
         LogEntry entry = LogEntry.builder()
-                .serviceName(message.serviceName())
                 .messageType(message.messageType())
                 .message(message.message())
                 .dateTime(

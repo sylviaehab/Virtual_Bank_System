@@ -23,8 +23,6 @@ public class LogEntry {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "service_name", nullable = false, length = 100)
-    private String serviceName;
 
     @Column(name = "message_type", nullable = false, length = 30)
     private String messageType;

@@ -57,11 +57,18 @@ services:
       DB_USERNAME: user_service_app
       DB_PASSWORD: ${USER_DB_PASSWORD}
 
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      APP_KAFKA_LOG_TOPIC: virtual-bank-logs
+
+
     depends_on:
       user-mysql:
         condition: service_healthy
 
       eureka-server:
+        condition: service_started
+
+      kafka:
         condition: service_started
 
     restart: on-failure
@@ -275,9 +282,6 @@ services:
       - "2181:2181"
 
 
-
-
-
   kafka:
 
     image: confluentinc/cp-kafka:7.4.4
@@ -323,7 +327,6 @@ services:
 
 
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-
 
 
 
