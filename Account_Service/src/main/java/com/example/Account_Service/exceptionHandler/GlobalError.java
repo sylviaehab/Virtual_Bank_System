@@ -1,4 +1,4 @@
-package com.example.Account_Service.ExceptionHandler;
+package com.example.Account_Service.exceptionHandler;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

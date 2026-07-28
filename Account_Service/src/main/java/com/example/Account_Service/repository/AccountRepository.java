@@ -6,10 +6,16 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.Account_Service.Enum.AccountType;
 import com.example.Account_Service.entity.Account;
+import com.example.Account_Service.enums.AccountType;
+import com.example.Account_Service.enums.StatusType;
 
 public interface AccountRepository extends JpaRepository<Account, UUID> {
     Optional<Account> findFirstByAccountType(AccountType accountType);
-     List<Account> findByAccountTypeAndStatus(AccountType accountType, String status);
+
+    List<Account> findByAccountTypeAndStatus(AccountType accountType, StatusType status);
+
+    List<Account> findByStatus(StatusType statusType);
+
+    List<Account> findByUserId(UUID userId);
 }

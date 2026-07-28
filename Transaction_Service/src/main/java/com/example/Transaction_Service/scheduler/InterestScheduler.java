@@ -16,6 +16,8 @@ import com.example.Transaction_Service.dto.AccountResponse;
 import com.example.Transaction_Service.dto.AccountTransferRequest;
 import com.example.Transaction_Service.entity.Transaction;
 import com.example.Transaction_Service.entity.TransactionStatus;
+import com.example.Transaction_Service.enums.AccountType;
+import com.example.Transaction_Service.enums.StatusType;
 import com.example.Transaction_Service.kafka.KafkaProducerService;
 import com.example.Transaction_Service.repository.TransactionRepository;
 
@@ -92,7 +94,7 @@ public class InterestScheduler {
         try {
 
             List<AccountResponse> systemAccounts =
-                    accountServiceClient.listAccounts("SYSTEM", "ACTIVE");
+                    accountServiceClient.listAccounts(AccountType.SYSTEM, StatusType.ACTIVE);
 
             if (systemAccounts == null || systemAccounts.isEmpty()) {
                 return null;
@@ -113,7 +115,7 @@ public class InterestScheduler {
         try {
 
             List<AccountResponse> accounts =
-                    accountServiceClient.listAccounts("SAVINGS", "ACTIVE");
+                    accountServiceClient.listAccounts(AccountType.SAVINGS, StatusType.ACTIVE);
 
             return accounts == null
                     ? Collections.emptyList()
