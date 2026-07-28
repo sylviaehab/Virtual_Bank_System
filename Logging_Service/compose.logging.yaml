@@ -1,0 +1,69 @@
+services:
+
+  logging-mysql:
+    image: mysql:8.4
+
+    container_name: logging-service-mysql
+
+    environment:
+      MYSQL_DATABASE: logging_service_db
+      MYSQL_USER: logging_service_app
+      MYSQL_PASSWORD: ${LOGGING_DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+
+    ports:
+      - "3310:3306"
+
+    volumes:
+      - logging-service-db:/var/lib/mysql
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mysqladmin ping -h localhost -u root -p$$MYSQL_ROOT_PASSWORD"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+
+  logging-service:
+    build:
+      context: ./Logging_Service
+      dockerfile: Dockerfile
+
+    container_name: logging-service
+
+    ports:
+      - "8085:8085"
+
+    environment:
+      SERVER_PORT: 8085
+
+      DB_URL: jdbc:mysql://logging-mysql:3306/logging_service_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: logging_service_app
+      DB_PASSWORD: ${LOGGING_DB_PASSWORD}
+
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      APP_KAFKA_LOG_TOPIC: virtual-bank-logs
+
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+
+    depends_on:
+      logging-mysql:
+        condition: service_healthy
+
+      kafka:
+        condition: service_started
+
+      eureka-server:
+        condition: service_started
+
+    restart: on-failure
+
+
+volumes:
+
+  logging-service-db:

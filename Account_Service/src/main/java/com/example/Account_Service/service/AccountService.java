@@ -13,6 +13,10 @@ import com.example.Account_Service.enums.AccountType;
 import com.example.Account_Service.enums.StatusType;
 import com.example.Account_Service.exceptionHandler.*;
 import com.example.Account_Service.kafka.Producer.KafkaLogProducer;
+import com.example.Account_Service.kafka.dto.AccountRequestLog;
+import com.example.Account_Service.kafka.dto.DownstreamFailureResponse;
+import com.example.Account_Service.kafka.dto.ListAccountsRequestLog;
+import com.example.Account_Service.kafka.dto.UserAccountsRequestLog;
 import com.example.Account_Service.kafka.mapper.KafkaMapper;
 import com.example.Account_Service.mapping.AccountMapper;
 import com.example.Account_Service.repository.AccountRepository;
@@ -93,7 +97,7 @@ public class AccountService {
         toAccount.setBalance(toAccount.getBalance().add(transferRequest.amount()));
 
         TransferResponse response =
-                new TransferResponse("Account updated successfully.");
+                new TransferResponse("Accounts: " + fromAccount.getAccountId() + " and " + toAccount.getAccountId() + "  updated successfully.");
 
         kafkaLogProducer.sendResponse(response);
         log.info(
@@ -105,11 +109,23 @@ public class AccountService {
     }
 
     public RetrieveResponse getAccount(UUID accountId) {
+        log.info("Retrieving account with id: {}", accountId);
+
+        kafkaLogProducer.sendRequest(
+                new AccountRequestLog(accountId)
+        );
+
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new AccountNotFoundException(
                         "Account with ID " + accountId + " not found."));
 
-        return mapper.toRetrieveResponse(account);
+        RetrieveResponse response = mapper.toRetrieveResponse(account);
+
+        kafkaLogProducer.sendResponse(response);
+
+        log.info("Account {} retrieved successfully.", accountId);
+
+        return response;
     }
 
     public List<RetrieveResponse> getAllAccounts(UUID userId) {
@@ -137,7 +153,12 @@ public class AccountService {
                     "User with ID " + userId.toString() + " not found."
             );
         } catch (FeignException ex) {
-
+            kafkaLogProducer.sendResponse(
+                    new DownstreamFailureResponse(
+                            "User Service",
+                            "Failed to retrieve user data from User Service."
+                    )
+            );
             throw new DownstreamServiceException(
                     "Failed to retrieve user data from User Service."
             );
@@ -146,6 +167,12 @@ public class AccountService {
     }
 
     public List<RetrieveResponse> getUserAccounts(UUID userId) {
+        log.info("Retrieving accounts for user: {}", userId);
+
+        kafkaLogProducer.sendRequest(
+                new UserAccountsRequestLog(userId)
+        );
+
         checkUser(userId);
         List<RetrieveResponse> accounts = accountRepository.findByUserId(userId).stream()
                 .map(mapper::toRetrieveResponse)
@@ -153,19 +180,47 @@ public class AccountService {
         if (accounts.isEmpty()) {
             throw new AccountNotFoundException("No accounts found for user ID " + userId);
         }
+        kafkaLogProducer.sendResponse(accounts);
+
+        log.info(
+                "Retrieved {} accounts for user: {}",
+                accounts.size(),
+                userId
+        );
         return accounts;
     }
 
     public List<RetrieveResponse> listAccounts(AccountType accountType, StatusType status) {
+
+        log.info(
+                "Retrieving accounts with filters - type: {}, status: {}",
+                accountType,
+                status
+        );
+
+        kafkaLogProducer.sendRequest(
+                new ListAccountsRequestLog(accountType, status)
+        );
+
+
         List<Account> accounts;
         if (accountType != null && status != null) {
             accounts = accountRepository.findByAccountTypeAndStatus(accountType, status);
         } else {
             accounts = accountRepository.findAll();
         }
-        return accounts.stream()
+        List<RetrieveResponse> response = accounts.stream()
                 .map(mapper::toRetrieveResponse)
                 .collect(Collectors.toList());
+
+        kafkaLogProducer.sendResponse(response);
+
+        log.info(
+                "Retrieved {} accounts.",
+                response.size()
+        );
+
+        return response;
     }
 
     public int updateInactiveAccounts() {
@@ -210,6 +265,12 @@ public class AccountService {
                     );
                 }
             } catch (FeignException ex) {
+                kafkaLogProducer.sendResponse(
+                        new DownstreamFailureResponse(
+                                "Transaction Service",
+                                "Failed to retrieve transactions."
+                        )
+                );
                 log.error(
                         "Failed to retrieve transactions for account {}",
                         account.getAccountId(),
