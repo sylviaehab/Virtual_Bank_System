@@ -4,7 +4,6 @@ import com.example.Account_Service.client.TransactionClient;
 import com.example.Account_Service.client.UserClient;
 import com.example.Account_Service.client.dto.TransactionHistoryResponse;
 import com.example.Account_Service.client.dto.TransferRequest;
-import com.example.Account_Service.client.dto.UserResponse;
 import com.example.Account_Service.dto.AccountCreateResponse;
 import com.example.Account_Service.dto.AccountRequest;
 import com.example.Account_Service.dto.RetrieveResponse;
@@ -13,6 +12,8 @@ import com.example.Account_Service.entity.Account;
 import com.example.Account_Service.enums.AccountType;
 import com.example.Account_Service.enums.StatusType;
 import com.example.Account_Service.exceptionHandler.*;
+import com.example.Account_Service.kafka.Producer.KafkaLogProducer;
+import com.example.Account_Service.kafka.mapper.KafkaMapper;
 import com.example.Account_Service.mapping.AccountMapper;
 import com.example.Account_Service.repository.AccountRepository;
 import feign.FeignException;
@@ -38,21 +39,42 @@ public class AccountService {
     private final UserClient userClient;
     private final TransactionClient transactionClient;
     private final AccountMapper mapper;
-
+    private final KafkaLogProducer kafkaLogProducer;
+    private final KafkaMapper kafkaMapper;
 
     public AccountCreateResponse addAccount(AccountRequest accountRequest) {
+        log.info("Creating account for user: {}", accountRequest.userId());
+
+        kafkaLogProducer.sendRequest(accountRequest);
 
         checkUser(accountRequest.userId());
 
         Account newAccount = mapper.toAccount(accountRequest);
         Account savedAccount = accountRepository.save(newAccount);
 
-        return mapper.toCreateResponse(savedAccount);
+        AccountCreateResponse accountResponse = mapper.toCreateResponse(savedAccount);
+
+        kafkaLogProducer.sendResponse(accountResponse);
+
+
+        log.info(
+                "Account {} created successfully.",
+                savedAccount.getAccountId()
+        );
+
+        return accountResponse;
 
     }
 
     @Transactional
     public TransferResponse updateBalance(TransferRequest transferRequest) {
+        log.info(
+                "Starting transfer from {} to {}",
+                transferRequest.fromAccountId(),
+                transferRequest.toAccountId()
+        );
+
+        kafkaLogProducer.sendRequest(transferRequest);
 
         Account fromAccount = checkAccount(transferRequest.fromAccountId());
         Account toAccount = checkAccount(transferRequest.toAccountId());
@@ -70,8 +92,16 @@ public class AccountService {
         fromAccount.setBalance(fromAccount.getBalance().subtract(transferRequest.amount()));
         toAccount.setBalance(toAccount.getBalance().add(transferRequest.amount()));
 
+        TransferResponse response =
+                new TransferResponse("Account updated successfully.");
 
-        return new TransferResponse("Account updated successfully.");
+        kafkaLogProducer.sendResponse(response);
+        log.info(
+                "Transfer completed successfully from {} to {}",
+                transferRequest.fromAccountId(),
+                transferRequest.toAccountId()
+        );
+        return response;
     }
 
     public RetrieveResponse getAccount(UUID accountId) {
@@ -106,6 +136,11 @@ public class AccountService {
             throw new UserNotFoundException(
                     "User with ID " + userId.toString() + " not found."
             );
+        } catch (FeignException ex) {
+
+            throw new DownstreamServiceException(
+                    "Failed to retrieve user data from User Service."
+            );
         }
 
     }
@@ -133,9 +168,9 @@ public class AccountService {
                 .collect(Collectors.toList());
     }
 
-    public void updateInactiveAccounts() {
+    public int updateInactiveAccounts() {
         log.info("Starting inactive accounts check");
-
+        int updatedAccounts = 0;
         Instant oneDayAgo = Instant.now().minus(1, ChronoUnit.DAYS);
         List<Account> activeAccounts = accountRepository.findByStatus(StatusType.ACTIVE);
 
@@ -168,6 +203,7 @@ public class AccountService {
                 if (latestTransaction.get().timestamp().isBefore(oneDayAgo)) {
                     account.setStatus(StatusType.INACTIVE);
                     accountRepository.save(account);
+                    updatedAccounts++;
                     log.info(
                             "Account {} changed from ACTIVE to INACTIVE",
                             account.getAccountId()
@@ -182,7 +218,11 @@ public class AccountService {
             }
 
         }
-        log.info("Inactive accounts check completed");
+        log.info(
+                "Inactive accounts check completed. {} accounts updated.",
+                updatedAccounts
+        );
 
+        return updatedAccounts;
     }
 }

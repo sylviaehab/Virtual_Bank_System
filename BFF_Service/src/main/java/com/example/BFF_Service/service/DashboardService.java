@@ -3,12 +3,10 @@ package com.example.BFF_Service.service;
 import com.example.BFF_Service.client.AccountClient;
 import com.example.BFF_Service.client.TransactionClient;
 import com.example.BFF_Service.client.UserClient;
-import com.example.BFF_Service.dto.AccountDashboardResponse;
-import com.example.BFF_Service.dto.AccountResponse;
-import com.example.BFF_Service.dto.DashboardResponse;
-import com.example.BFF_Service.dto.UserResponse;
+import com.example.BFF_Service.dto.*;
 import com.example.BFF_Service.exceptionHandler.DownstreamServiceException;
 import com.example.BFF_Service.exceptionHandler.UserNotFoundException;
+import com.example.BFF_Service.kafka.Producer.KafkaLogProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,10 +24,13 @@ public class DashboardService {
     private final UserClient userClient;
     private final AccountClient accountClient;
     private final TransactionClient transactionClient;
+    private final KafkaLogProducer kafkaLogProducer;
 
     public Mono<DashboardResponse> getDashboard(UUID userId) {
         log.info("Starting dashboard aggregation for user: {}", userId);
-
+        kafkaLogProducer.sendRequest(
+                new DashboardRequest(userId)
+        );
         Mono<UserResponse> user =
                 userClient.getUserProfile(userId)
                         .onErrorMap(
@@ -40,9 +41,20 @@ public class DashboardService {
                         )
                         .onErrorMap(
                                 ex -> !(ex instanceof UserNotFoundException),
-                                ex -> new DownstreamServiceException(
-                                        "Failed to retrieve user data."
-                                )
+                                ex -> {
+                                    log.error("Failed to retrieve user data.", ex);
+
+                                    kafkaLogProducer.sendResponse(
+                                            new DownstreamFailureResponse(
+                                                    "User Service",
+                                                    ex.getMessage()
+                                            )
+                                    );
+
+                                    return new DownstreamServiceException(
+                                            "Failed to retrieve user data."
+                                    );
+                                }
                         );
 
         Mono<List<AccountResponse>> accounts =
@@ -64,10 +76,20 @@ public class DashboardService {
                                     return Mono.just(List.of());
                                 }
                         )
-                        .onErrorMap(ex ->
-                                new DownstreamServiceException(
-                                        "Failed to retrieve accounts data due to an issue with downstream services."
-                                ));
+                        .onErrorMap(ex -> {
+                            log.error("Failed to retrieve accounts  data.", ex);
+
+                            kafkaLogProducer.sendResponse(
+                                    new DownstreamFailureResponse(
+                                            "Account Service",
+                                            ex.getMessage()
+                                    )
+                            );
+
+                            return new DownstreamServiceException(
+                                    "Failed to retrieve accounts data due to an issue with downstream services."
+                            );
+                        });
 
         return Mono.zip(user, accounts)
                 .flatMap(tuple -> {
@@ -86,13 +108,17 @@ public class DashboardService {
                             .map(accountsWithTransactions -> {
                                         log.info("Dashboard aggregation completed for user: {}", userId);
 
-                                        return new DashboardResponse(
-                                                userProfile.userId(),
-                                                userProfile.username(),
-                                                userProfile.email(),
-                                                userProfile.firstName(),
-                                                userProfile.lastName(),
-                                                accountsWithTransactions);
+                                        DashboardResponse dashboardResponse =
+                                                new DashboardResponse(
+                                                        userProfile.userId(),
+                                                        userProfile.username(),
+                                                        userProfile.email(),
+                                                        userProfile.firstName(),
+                                                        userProfile.lastName(),
+                                                        accountsWithTransactions);
+                                        kafkaLogProducer.sendResponse(dashboardResponse);
+
+                                        return dashboardResponse;
                                     }
                             );
 
@@ -140,6 +166,13 @@ public class DashboardService {
                             account.accountId(),
                             ex
                     );
+                    kafkaLogProducer.sendResponse(
+                            new DownstreamFailureResponse(
+                                    "Transaction Service",
+                                    ex.getMessage()
+                            )
+                    );
+
                     return new DownstreamServiceException(
                             "Failed to retrieve transactions data for account id " +
                                     account.accountId() +
