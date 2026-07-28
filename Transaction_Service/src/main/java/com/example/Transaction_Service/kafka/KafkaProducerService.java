@@ -1,34 +1,45 @@
 package com.example.Transaction_Service.kafka;
 
+import java.time.Instant;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import com.example.Transaction_Service.dto.LogMessage;
+
 import lombok.extern.slf4j.Slf4j;
+
 @Service
 @Slf4j
 public class KafkaProducerService {
 
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, LogMessage> kafkaTemplate;
 
     @Value("${transaction.kafka.topic}")
     private String topic;
 
-    public KafkaProducerService(KafkaTemplate<String, String> kafkaTemplate) {
+    public KafkaProducerService(KafkaTemplate<String, LogMessage> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendLog(String message) {
+    public void sendLog(String message, String messageType) {
 
-        log.info("Sending Kafka message to topic {} : {}", topic, message);
+        LogMessage logMessage = new LogMessage(
+                message,
+                messageType,
+                Instant.now()
+        );
 
-        kafkaTemplate.send(topic, message)
-            .whenComplete((result, ex) -> {
-                if (ex == null) {
-                    log.info("Kafka message sent successfully");
-                } else {
-                    log.error("Kafka send failed", ex);
-                }
-            });
+        log.info("Sending Kafka message: {}", logMessage);
+
+        kafkaTemplate.send(topic, logMessage)
+                .whenComplete((result, ex) -> {
+                    if (ex == null) {
+                        log.info("Kafka message sent successfully");
+                    } else {
+                        log.error("Kafka send failed", ex);
+                    }
+                });
     }
 }

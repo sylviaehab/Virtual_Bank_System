@@ -49,7 +49,8 @@ public class InterestScheduler {
             log.error("No active SYSTEM account found in Account Service. Skipping interest job run.");
 
             kafkaProducerService.sendLog(
-                    "INTEREST_SCHEDULER_FAILED | No SYSTEM account found."
+                    "No active SYSTEM account found. Interest scheduler stopped.",
+                    "INTEREST_SCHEDULER_FAILED"
             );
 
             return;
@@ -70,9 +71,10 @@ public class InterestScheduler {
             } catch (Exception ex) {
 
                 kafkaProducerService.sendLog(
-                        "INTEREST_TRANSFER_FAILED | account="
-                                + account.getAccountId()
-                                + " | reason=" + ex.getMessage()
+                        "Interest transfer failed. "
+                                + "AccountId=" + account.getAccountId()
+                                + ", Reason=" + ex.getMessage(),
+                        "INTEREST_TRANSFER_FAILED"
                 );
 
                 log.error("Failed to credit interest for account {}",
@@ -84,8 +86,9 @@ public class InterestScheduler {
         log.info("Daily interest job completed.");
 
         kafkaProducerService.sendLog(
-                "INTEREST_SCHEDULER_COMPLETED | processedAccounts="
-                        + savingsAccounts.size()
+                "Daily interest scheduler completed successfully. "
+                        + "ProcessedAccounts=" + savingsAccounts.size(),
+                "INTEREST_SCHEDULER_COMPLETED"
         );
     }
 
@@ -94,7 +97,9 @@ public class InterestScheduler {
         try {
 
             List<AccountResponse> systemAccounts =
-                    accountServiceClient.listAccounts(AccountType.SYSTEM, StatusType.ACTIVE);
+                    accountServiceClient.listAccounts(
+                            AccountType.SYSTEM,
+                            StatusType.ACTIVE);
 
             if (systemAccounts == null || systemAccounts.isEmpty()) {
                 return null;
@@ -109,27 +114,28 @@ public class InterestScheduler {
             return null;
         }
     }
-
     private List<AccountResponse> fetchActiveSavingsAccounts() {
 
-        try {
+    try {
 
-            List<AccountResponse> accounts =
-                    accountServiceClient.listAccounts(AccountType.SAVINGS, StatusType.ACTIVE);
+        List<AccountResponse> accounts =
+                accountServiceClient.listAccounts(
+                        AccountType.SAVINGS,
+                        StatusType.ACTIVE);
 
-            return accounts == null
-                    ? Collections.emptyList()
-                    : accounts;
+        return accounts == null
+                ? Collections.emptyList()
+                : accounts;
 
-        } catch (Exception ex) {
+    } catch (Exception ex) {
 
-            log.error("Failed to fetch active savings accounts from Account Service", ex);
+        log.error("Failed to fetch active savings accounts from Account Service", ex);
 
-            return Collections.emptyList();
-        }
+        return Collections.emptyList();
     }
+}
 
-    @Transactional
+       @Transactional
     protected void creditInterestForAccount(UUID systemAccountId,
                                             AccountResponse account) {
 
@@ -165,19 +171,48 @@ public class InterestScheduler {
 
             transaction.setStatus(TransactionStatus.SUCCESS);
 
+            kafkaProducerService.sendLog(
+                    "Interest credited successfully. "
+                            + "TransactionId=" + transaction.getTransactionId()
+                            + ", AccountId=" + account.getAccountId()
+                            + ", Amount=" + interestAmount,
+                    "INTEREST_TRANSFER_SUCCESS"
+            );
+
+            log.info("Interest credited successfully for account {}",
+                    account.getAccountId());
+
         } catch (FeignException ex) {
 
             transaction.setStatus(TransactionStatus.FAILED);
 
             kafkaProducerService.sendLog(
-                    "INTEREST_TRANSFER_FAILED | account="
-                            + account.getAccountId()
-                            + " | reason=" + ex.getMessage()
+                    "Interest transfer failed. "
+                            + "TransactionId=" + transaction.getTransactionId()
+                            + ", AccountId=" + account.getAccountId()
+                            + ", Reason=" + ex.getMessage(),
+                    "INTEREST_TRANSFER_FAILED"
             );
 
             log.warn("Interest transfer failed for account {}: {}",
                     account.getAccountId(),
                     ex.getMessage());
+
+        } catch (Exception ex) {
+
+            transaction.setStatus(TransactionStatus.FAILED);
+
+            kafkaProducerService.sendLog(
+                    "Unexpected error while processing interest. "
+                            + "TransactionId=" + transaction.getTransactionId()
+                            + ", AccountId=" + account.getAccountId()
+                            + ", Reason=" + ex.getMessage(),
+                    "INTEREST_TRANSFER_FAILED"
+            );
+
+            log.error("Unexpected error while crediting interest for account {}",
+                    account.getAccountId(),
+                    ex);
 
         } finally {
 

@@ -24,11 +24,9 @@ import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
-
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
@@ -37,10 +35,11 @@ public class TransactionService {
 
     /**
      * POST /transactions/transfer/initiation
-     * Records a new transaction row with status INITIATED. No money moves yet.
+     * Records a new transaction row with status INITIATED.
      */
     @Transactional
     public TransferResponse initiateTransfer(TransferInitiationRequest request) {
+
         if (request.getFromAccountId().equals(request.getToAccountId())) {
             throw new BadRequestException("Invalid 'from' or 'to' account ID.");
         }
@@ -56,24 +55,22 @@ public class TransactionService {
                 .status(TransactionStatus.INITIATED)
                 .build();
 
-       Transaction saved = transactionRepository.save(transaction);
+        Transaction saved = transactionRepository.save(transaction);
 
-log.info("BEFORE KAFKA SEND");
-
-kafkaProducerService.sendLog(
-    "TRANSACTION_INITIATED | id=" + saved.getTransactionId()
-);
-
-log.info("AFTER KAFKA SEND");
-        
         kafkaProducerService.sendLog(
-        "TRANSACTION_INITIATED | id=" + saved.getTransactionId()
-        + " | from=" + saved.getFromAccountId()
-        + " | to=" + saved.getToAccountId()
-        + " | amount=" + saved.getAmount()
-);
+                "Transaction initiated successfully. "
+                        + "TransactionId=" + saved.getTransactionId()
+                        + ", From=" + saved.getFromAccountId()
+                        + ", To=" + saved.getToAccountId()
+                        + ", Amount=" + saved.getAmount(),
+                "TRANSACTION_INITIATED"
+        );
+
         log.info("Transaction {} initiated: {} -> {} amount {}",
-                saved.getTransactionId(), saved.getFromAccountId(), saved.getToAccountId(), saved.getAmount());
+                saved.getTransactionId(),
+                saved.getFromAccountId(),
+                saved.getToAccountId(),
+                saved.getAmount());
 
         return TransferResponse.builder()
                 .transactionId(saved.getTransactionId())
@@ -84,12 +81,10 @@ log.info("AFTER KAFKA SEND");
 
     /**
      * POST /transactions/transfer/execution
-     * Looks up the INITIATED transaction, calls the Account Service (via Feign)
-     * to debit/credit the two accounts, then flips the transaction to
-     * SUCCESS or FAILED.
      */
     @Transactional
     public TransferResponse executeTransfer(UUID transactionId) {
+
         Transaction transaction = transactionRepository.findById(transactionId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Transaction with ID " + transactionId + " not found."));
@@ -100,39 +95,60 @@ log.info("AFTER KAFKA SEND");
         }
 
         try {
+
             accountServiceClient.transfer(new AccountTransferRequest(
                     transaction.getFromAccountId(),
                     transaction.getToAccountId(),
                     transaction.getAmount()));
 
             transaction.setStatus(TransactionStatus.SUCCESS);
+
         } catch (FeignException.BadRequest ex) {
+
             transaction.setStatus(TransactionStatus.FAILED);
             transactionRepository.save(transaction);
+
             log.warn("Account Service rejected transfer for transaction {}: {}",
                     transactionId, ex.getMessage());
-                    kafkaProducerService.sendLog(
-        "TRANSACTION_FAILED | id=" + transactionId
-        + " | reason=" + ex.getMessage()
-);
-            throw new BadRequestException("Invalid 'from' or 'to' account ID, or insufficient funds.");
+
+            kafkaProducerService.sendLog(
+                    "Transaction failed. "
+                            + "TransactionId=" + transactionId
+                            + ", Reason=" + ex.getMessage(),
+                    "TRANSACTION_FAILED"
+            );
+
+            throw new BadRequestException(
+                    "Invalid 'from' or 'to' account ID, or insufficient funds.");
+
         } catch (Exception ex) {
+
             transaction.setStatus(TransactionStatus.FAILED);
             transactionRepository.save(transaction);
+
             kafkaProducerService.sendLog(
-        "TRANSACTION_FAILED | id=" + transactionId
-        + " | reason=" + ex.getMessage()
-);
+                    "Transaction failed. "
+                            + "TransactionId=" + transactionId
+                            + ", Reason=" + ex.getMessage(),
+                    "TRANSACTION_FAILED"
+            );
+
             throw ex;
         }
 
         Transaction updated = transactionRepository.save(transaction);
+
         kafkaProducerService.sendLog(
-        "TRANSACTION_EXECUTED | id=" + updated.getTransactionId()
-        + " | status=" + updated.getStatus()
-        + " | amount=" + updated.getAmount()
-);
-        log.info("Transaction {} executed with status {}", updated.getTransactionId(), updated.getStatus());
+                "Transaction executed successfully. "
+                        + "TransactionId=" + updated.getTransactionId()
+                        + ", Amount=" + updated.getAmount()
+                        + ", Status=" + updated.getStatus(),
+                "TRANSACTION_EXECUTED"
+        );
+
+        log.info("Transaction {} executed with status {}",
+                updated.getTransactionId(),
+                updated.getStatus());
 
         return TransferResponse.builder()
                 .transactionId(updated.getTransactionId())
@@ -140,7 +156,6 @@ log.info("AFTER KAFKA SEND");
                 .timestamp(updated.getUpdatedAt())
                 .build();
     }
-
     /**
      * GET /accounts/{accountId}/transactions
      * Returns every transaction where the account is either sender or receiver.
@@ -149,7 +164,14 @@ log.info("AFTER KAFKA SEND");
      * "deliveryStatus" mirrors the internal TransactionStatus but uses the
      * spec's own vocabulary (SENT/DELIVERED/FAILED) instead of the raw enum.
      */
+       /**
+     * GET /accounts/{accountId}/transactions
+     * Returns every transaction where the account is either sender or receiver.
+     * Amount is negative when the queried account is the sender
+     * and positive when it is the receiver.
+     */
     public List<TransactionHistoryResponse> getTransactionHistory(UUID accountId) {
+
         List<Transaction> transactions = transactionRepository
                 .findByFromAccountIdOrToAccountIdOrderByCreatedAtDesc(accountId, accountId);
 
@@ -160,8 +182,12 @@ log.info("AFTER KAFKA SEND");
 
         return transactions.stream()
                 .map(t -> {
+
                     boolean isSender = t.getFromAccountId().equals(accountId);
-                    BigDecimal signedAmount = isSender ? t.getAmount().negate() : t.getAmount();
+
+                    BigDecimal signedAmount = isSender
+                            ? t.getAmount().negate()
+                            : t.getAmount();
 
                     return TransactionHistoryResponse.builder()
                             .transactionId(t.getTransactionId())
@@ -177,39 +203,48 @@ log.info("AFTER KAFKA SEND");
     }
 
     /**
-     * Confirms an account exists in the Account Service before we let a
-     * transfer be initiated against it. A 404 from the Account Service is
-     * translated into the same "Invalid 'from' or 'to' account ID." error
-     * the spec expects from this endpoint.
+     * Validates that an account exists before allowing transfers.
      */
     private void validateAccountExists(UUID accountId) {
+
         try {
             accountServiceClient.getAccount(accountId);
+
         } catch (FeignException.NotFound ex) {
             throw new BadRequestException("Invalid 'from' or 'to' account ID.");
         }
     }
 
+    /**
+     * Converts enum name to Capitalized text.
+     * Example:
+     * SUCCESS -> Success
+     * FAILED  -> Failed
+     */
     private String capitalize(String value) {
+
         if (value == null || value.isEmpty()) {
             return value;
         }
-        return value.charAt(0) + value.substring(1).toLowerCase();
+
+        return value.charAt(0)
+                + value.substring(1).toLowerCase();
     }
 
     /**
-     * Maps the internal TransactionStatus to the vocabulary used in the
-     * transaction-history response per the spec (SENT / DELIVERED / FAILED).
-     * INITIATED -> "SENT" (the transfer request has gone out but not settled)
-     * SUCCESS   -> "DELIVERED" (funds have moved successfully)
-     * FAILED    -> "FAILED"
+     * Maps internal transaction status
+     * to the API delivery status.
      */
     private String toDeliveryStatus(TransactionStatus status) {
+
         switch (status) {
+
             case INITIATED:
                 return "SENT";
+
             case SUCCESS:
                 return "DELIVERED";
+
             case FAILED:
             default:
                 return "FAILED";
