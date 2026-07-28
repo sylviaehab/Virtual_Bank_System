@@ -119,11 +119,17 @@ services:
       DB_USERNAME: account_service_app
       DB_PASSWORD: ${ACCOUNT_DB_PASSWORD}
 
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      APP_KAFKA_LOG_TOPIC: virtual-bank-logs
+
     depends_on:
       account-mysql:
         condition: service_healthy
 
       eureka-server:
+        condition: service_started
+
+      kafka:
         condition: service_started
 
     restart: on-failure
@@ -183,7 +189,7 @@ services:
       # Kafka
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
 
-      TRANSACTION_KAFKA_TOPIC: transaction-logs
+      TRANSACTION_KAFKA_TOPIC: virtual-bank-logs
 
 
     depends_on:
