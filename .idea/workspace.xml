@@ -6,10 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="7488d0b5-ca78-4ece-bc26-8eb702e5d117" name="Changes" comment="Logging Service Done and tested on user service ,database updated,YAYYAYAY">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logging_Service/src/main/java/com/example/LoggingService/kafka/LogConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logging_Service/src/main/java/com/example/LoggingService/kafka/LogConsumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logging_Service/src/main/java/com/example/LoggingService/service/LoggingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logging_Service/src/main/java/com/example/LoggingService/service/LoggingService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Service/src/main/java/com/User_Service/kafka/LogProducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Service/src/main/java/com/User_Service/kafka/LogProducer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/User_Service/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,61 +60,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.0000000000010547" />
-      <entry key="S2" value="1.002801237805158" />
-      <entry key="S5" value="1.3642210202766127" />
-      <entry key="S10" value="3.344895709643516" />
-      <entry key="S30" value="10.194557503315648" />
-      <entry key="S60" value="14.247980169745205" />
-      <entry key="M2" value="17.205988195303824" />
-      <entry key="M5" value="19.700632955408704" />
-      <entry key="M10" value="20.762323652565883" />
-      <entry key="M15" value="21.15825921542419" />
-      <entry key="M30" value="21.9699472323465" />
-      <entry key="H1" value="28.35851057799452" />
-      <entry key="H2" value="54.29880923877059" />
-      <entry key="H4" value="97.2459850788595" />
-      <entry key="D1" value="177.3590943827177" />
-      <entry key="W1" value="198.24596274323858" />
+      <entry key="MS100" value="1.00254168331141" />
+      <entry key="MS500" value="1.3027082710031785" />
+      <entry key="S2" value="1.7450836738972504" />
+      <entry key="S5" value="2.042207184715061" />
+      <entry key="S10" value="2.4984865539524064" />
+      <entry key="S30" value="3.2859610696527257" />
+      <entry key="S60" value="3.6060612677323327" />
+      <entry key="M2" value="3.7927928732434255" />
+      <entry key="M5" value="3.9145183371608345" />
+      <entry key="M10" value="3.9568136462675314" />
+      <entry key="M15" value="3.9711091622469414" />
+      <entry key="M30" value="3.9859462590220187" />
+      <entry key="H1" value="4.1199218180555945" />
+      <entry key="H2" value="7.6326843068822035" />
+      <entry key="H4" value="29.163790980679384" />
+      <entry key="D1" value="145.58214648458113" />
+      <entry key="W1" value="195.96698043747554" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
       <entry key="MS500" value="0.0" />
       <entry key="S2" value="0.0" />
       <entry key="S5" value="0.0" />
-      <entry key="S10" value="8.38830284299729E-284" />
-      <entry key="S30" value="4.3774853414751964E-95" />
-      <entry key="S60" value="6.616256752481117E-48" />
-      <entry key="M2" value="2.5722085359630397E-24" />
-      <entry key="M5" value="3.6654092377585566E-10" />
-      <entry key="M10" value="1.9145297738426267E-5" />
-      <entry key="M15" value="7.157766625072469E-4" />
-      <entry key="M30" value="0.02709160016789698" />
-      <entry key="H1" value="0.18199235313186968" />
-      <entry key="H2" value="0.540191532338264" />
-      <entry key="H4" value="1.0044090482577233" />
-      <entry key="D1" value="1.7740407153421094" />
-      <entry key="W1" value="1.965789264263358" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="8.417702953902106E-189" />
+      <entry key="M2" value="9.174804059979762E-95" />
+      <entry key="M5" value="2.426826447553725E-38" />
+      <entry key="M10" value="1.5578306680300205E-19" />
+      <entry key="M15" value="2.89567367176482E-13" />
+      <entry key="M30" value="5.449048820547602E-7" />
+      <entry key="H1" value="8.161991932207701E-4" />
+      <entry key="H2" value="0.03617589484370662" />
+      <entry key="H4" value="0.2599239939031421" />
+      <entry key="D1" value="1.416183539251776" />
+      <entry key="W1" value="1.9035278656729537" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.9592641193252643" />
-      <entry key="MS500" value="0.9917167307393366" />
-      <entry key="S2" value="1.0007166880760583" />
-      <entry key="S5" value="1.3628200151353054" />
-      <entry key="S10" value="3.3414823278616193" />
-      <entry key="S30" value="10.188632163336719" />
-      <entry key="S60" value="14.243336710664" />
-      <entry key="M2" value="17.203054027299345" />
-      <entry key="M5" value="19.699270051624463" />
-      <entry key="M10" value="20.761624329797737" />
-      <entry key="M15" value="21.158485320642217" />
-      <entry key="M30" value="21.99674691914228" />
-      <entry key="H1" value="28.540137864559476" />
-      <entry key="H2" value="54.838351220160455" />
-      <entry key="H4" value="98.24964692691938" />
-      <entry key="D1" value="179.13286944822568" />
-      <entry key="W1" value="200.21170861295693" />
+      <entry key="MS100" value="0.8912808267698936" />
+      <entry key="MS500" value="1.2769093858488907" />
+      <entry key="S2" value="1.7376586560755913" />
+      <entry key="S5" value="2.038933441213401" />
+      <entry key="S10" value="2.496589724628352" />
+      <entry key="S30" value="3.2851761513779043" />
+      <entry key="S60" value="3.6056376189215893" />
+      <entry key="M2" value="3.792571939851549" />
+      <entry key="M5" value="3.914427587155568" />
+      <entry key="M10" value="3.956767858241479" />
+      <entry key="M15" value="3.971078543821354" />
+      <entry key="M30" value="3.985931441978351" />
+      <entry key="H1" value="4.120728690182185" />
+      <entry key="H2" value="7.668812854318851" />
+      <entry key="H4" value="29.423519687199217" />
+      <entry key="D1" value="146.99811763965542" />
+      <entry key="W1" value="197.8704662371732" />
     </decayedShown>
   </component>
   <component name="ProblemsViewState">
@@ -191,6 +187,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="TransactionServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="transaction-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.Transaction_Service.TransactionServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="UserServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <envs>
         <env name="DB_URL" value="jdbc:mysql://localhost:3307/user_service_db?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC" />
@@ -205,6 +208,7 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Spring Boot.TransactionServiceApplication" />
       <item itemvalue="Spring Boot.LoggingServiceApplication" />
       <item itemvalue="Spring Boot.UserServiceApplication" />
     </list>
@@ -225,7 +229,7 @@
       <option name="presentableId" value="Default" />
       <updated>1784364380224</updated>
       <workItem from="1785112364814" duration="3333000" />
-      <workItem from="1785176087865" duration="16318000" />
+      <workItem from="1785176087865" duration="18152000" />
     </task>
     <task id="LOCAL-00001" summary="logging service implementation done ,database connection done,kafka not working,logging properties no eureka">
       <option name="closed" value="true" />
@@ -243,7 +247,15 @@
       <option name="project" value="LOCAL" />
       <updated>1785184093518</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Logging Service Done and tested on user service ,database updated,YAYYAYAY">
+      <option name="closed" value="true" />
+      <created>1785198340068</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1785198340068</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
