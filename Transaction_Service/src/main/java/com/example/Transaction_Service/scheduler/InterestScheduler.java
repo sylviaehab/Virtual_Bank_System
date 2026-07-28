@@ -41,6 +41,10 @@ public class InterestScheduler {
     public void creditDailyInterest() {
 
         log.info("Starting daily interest job at rate {}", interestRate);
+        kafkaProducerService.sendLog(
+                "Daily interest scheduler started.",
+                "Request"
+        );
 
         UUID systemAccountId = resolveSystemAccountId();
 
@@ -50,7 +54,7 @@ public class InterestScheduler {
 
             kafkaProducerService.sendLog(
                     "No active SYSTEM account found. Interest scheduler stopped.",
-                    "INTEREST_SCHEDULER_FAILED"
+                    "Response"
             );
 
             return;
@@ -74,7 +78,7 @@ public class InterestScheduler {
                         "Interest transfer failed. "
                                 + "AccountId=" + account.getAccountId()
                                 + ", Reason=" + ex.getMessage(),
-                        "INTEREST_TRANSFER_FAILED"
+                        "Response"
                 );
 
                 log.error("Failed to credit interest for account {}",
@@ -88,7 +92,7 @@ public class InterestScheduler {
         kafkaProducerService.sendLog(
                 "Daily interest scheduler completed successfully. "
                         + "ProcessedAccounts=" + savingsAccounts.size(),
-                "INTEREST_SCHEDULER_COMPLETED"
+                "Response"
         );
     }
 
@@ -116,26 +120,26 @@ public class InterestScheduler {
     }
     private List<AccountResponse> fetchActiveSavingsAccounts() {
 
-    try {
+        try {
 
-        List<AccountResponse> accounts =
-                accountServiceClient.listAccounts(
-                        AccountType.SAVINGS,
-                        StatusType.ACTIVE);
+            List<AccountResponse> accounts =
+                    accountServiceClient.listAccounts(
+                            AccountType.SAVINGS,
+                            StatusType.ACTIVE);
 
-        return accounts == null
-                ? Collections.emptyList()
-                : accounts;
+            return accounts == null
+                    ? Collections.emptyList()
+                    : accounts;
 
-    } catch (Exception ex) {
+        } catch (Exception ex) {
 
-        log.error("Failed to fetch active savings accounts from Account Service", ex);
+            log.error("Failed to fetch active savings accounts from Account Service", ex);
 
-        return Collections.emptyList();
+            return Collections.emptyList();
+        }
     }
-}
 
-       @Transactional
+    @Transactional
     protected void creditInterestForAccount(UUID systemAccountId,
                                             AccountResponse account) {
 
@@ -176,7 +180,7 @@ public class InterestScheduler {
                             + "TransactionId=" + transaction.getTransactionId()
                             + ", AccountId=" + account.getAccountId()
                             + ", Amount=" + interestAmount,
-                    "INTEREST_TRANSFER_SUCCESS"
+                    "Response"
             );
 
             log.info("Interest credited successfully for account {}",
@@ -191,7 +195,7 @@ public class InterestScheduler {
                             + "TransactionId=" + transaction.getTransactionId()
                             + ", AccountId=" + account.getAccountId()
                             + ", Reason=" + ex.getMessage(),
-                    "INTEREST_TRANSFER_FAILED"
+                    "Response"
             );
 
             log.warn("Interest transfer failed for account {}: {}",
@@ -207,7 +211,7 @@ public class InterestScheduler {
                             + "TransactionId=" + transaction.getTransactionId()
                             + ", AccountId=" + account.getAccountId()
                             + ", Reason=" + ex.getMessage(),
-                    "INTEREST_TRANSFER_FAILED"
+                    "Response"
             );
 
             log.error("Unexpected error while crediting interest for account {}",

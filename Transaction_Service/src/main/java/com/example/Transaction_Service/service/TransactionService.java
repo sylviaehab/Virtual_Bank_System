@@ -63,7 +63,7 @@ public class TransactionService {
                         + ", From=" + saved.getFromAccountId()
                         + ", To=" + saved.getToAccountId()
                         + ", Amount=" + saved.getAmount(),
-                "TRANSACTION_INITIATED"
+                "Request"
         );
 
         log.info("Transaction {} initiated: {} -> {} amount {}",
@@ -115,7 +115,7 @@ public class TransactionService {
                     "Transaction failed. "
                             + "TransactionId=" + transactionId
                             + ", Reason=" + ex.getMessage(),
-                    "TRANSACTION_FAILED"
+                    "Response"
             );
 
             throw new BadRequestException(
@@ -130,7 +130,7 @@ public class TransactionService {
                     "Transaction failed. "
                             + "TransactionId=" + transactionId
                             + ", Reason=" + ex.getMessage(),
-                    "TRANSACTION_FAILED"
+                    "Response"
             );
 
             throw ex;
@@ -143,7 +143,7 @@ public class TransactionService {
                         + "TransactionId=" + updated.getTransactionId()
                         + ", Amount=" + updated.getAmount()
                         + ", Status=" + updated.getStatus(),
-                "TRANSACTION_EXECUTED"
+                "Response"
         );
 
         log.info("Transaction {} executed with status {}",
@@ -164,7 +164,7 @@ public class TransactionService {
      * "deliveryStatus" mirrors the internal TransactionStatus but uses the
      * spec's own vocabulary (SENT/DELIVERED/FAILED) instead of the raw enum.
      */
-       /**
+    /**
      * GET /accounts/{accountId}/transactions
      * Returns every transaction where the account is either sender or receiver.
      * Amount is negative when the queried account is the sender

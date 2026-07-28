@@ -135,6 +135,24 @@ services:
     restart: on-failure
 
 
+  bff-service:
+      build:
+        context: ./BFF_Service
+        dockerfile: Dockerfile
+
+      container_name: bff-service
+      environment:
+        SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+        APP_KAFKA_LOG_TOPIC: virtual-bank-logs
+      ports:
+        - "8084:8084"
+      depends_on:
+        eureka-server:
+          condition: service_started
+        kafka:
+          condition: service_started
+
+      restart: on-failure
 
 
   transaction-mysql:

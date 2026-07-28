@@ -76,14 +76,14 @@ public class UserController {
             @Valid @RequestBody RegisterRequest request
     ) {
         logProducer.send(
-                "REQUEST",
+                "Request",
                 "User registration request received."
         );
 
         RegisterResponse response = userService.register(request);
 
         logProducer.send(
-                "RESPONSE",
+                "Response",
                 "User registered successfully."
         );
 
@@ -133,14 +133,14 @@ public class UserController {
             @Valid @RequestBody LoginRequest request
     ) {
         logProducer.send(
-                "REQUEST",
+                "Request",
                 "User login request received."
         );
 
         LoginResponse response = userService.login(request);
 
         logProducer.send(
-                "RESPONSE",
+                "Response",
                 "User login completed successfully."
         );
 
@@ -175,7 +175,7 @@ public class UserController {
             @PathVariable UUID userId
     ) {
         logProducer.send(
-                "REQUEST",
+                "Request",
                 "User profile requested. userId=" + userId
         );
 
@@ -183,7 +183,7 @@ public class UserController {
                 userService.getUserProfile(userId);
 
         logProducer.send(
-                "RESPONSE",
+                "Response",
                 "User profile returned successfully. userId=" + userId
         );
 
