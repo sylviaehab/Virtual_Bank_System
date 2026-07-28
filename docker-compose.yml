@@ -352,7 +352,15 @@ services:
 
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
 
-
+  wso2am:
+    image: wso2/wso2am:4.4.0
+    container_name: wso2am
+    ports:
+      - "9443:9443"
+      - "8243:8243"
+    volumes:
+      - wso2am-data:/home/wso2carbon/wso2am-4.4.0
+    restart: unless-stopped
 
 
 volumes:
@@ -364,3 +372,5 @@ volumes:
   transaction-service-db:
 
   logging-service-db:
+
+  wso2am-data:
