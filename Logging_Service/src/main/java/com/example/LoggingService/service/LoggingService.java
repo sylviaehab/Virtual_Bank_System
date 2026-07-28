@@ -4,6 +4,7 @@ package com.example.LoggingService.service;
 import com.example.LoggingService.dto.LogMessage;
 import com.example.LoggingService.entity.LogEntry;
 import com.example.LoggingService.repository.LogRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -16,7 +17,7 @@ public class LoggingService {
     public LoggingService(LogRepository logRepository) {
         this.logRepository = logRepository;
     }
-
+    @Transactional
     public LogEntry save(LogMessage message) {
         LogEntry entry = LogEntry.builder()
                 .messageType(message.messageType())

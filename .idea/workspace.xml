@@ -4,17 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7488d0b5-ca78-4ece-bc26-8eb702e5d117" name="Changes" comment="logging service implementation done ,database connection done,kafka not working,logging properties no eureka">
+    <list default="true" id="7488d0b5-ca78-4ece-bc26-8eb702e5d117" name="Changes" comment="Logging Service Done and tested on user service ,database updated,YAYYAYAY">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logging_Service/src/main/java/com/example/LoggingService/dto/LogMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logging_Service/src/main/java/com/example/LoggingService/dto/LogMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logging_Service/src/main/java/com/example/LoggingService/entity/LogEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logging_Service/src/main/java/com/example/LoggingService/entity/LogEntry.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Logging_Service/src/main/java/com/example/LoggingService/kafka/LogConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logging_Service/src/main/java/com/example/LoggingService/kafka/LogConsumer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Logging_Service/src/main/java/com/example/LoggingService/service/LoggingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Logging_Service/src/main/java/com/example/LoggingService/service/LoggingService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logging_Service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Logging_Service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User_Service/src/main/java/com/User_Service/dto/LogMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Service/src/main/java/com/User_Service/dto/LogMessage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/User_Service/src/main/java/com/User_Service/kafka/LogProducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/User_Service/src/main/java/com/User_Service/kafka/LogProducer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/User_Service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/User_Service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,61 +64,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0009048721904865" />
-      <entry key="MS500" value="1.2737055424326005" />
-      <entry key="S2" value="3.3773618118949624" />
-      <entry key="S5" value="7.5131867215112775" />
-      <entry key="S10" value="10.95362294315443" />
-      <entry key="S30" value="14.579542321000043" />
-      <entry key="S60" value="15.72933688438211" />
-      <entry key="M2" value="16.3529492699096" />
-      <entry key="M5" value="17.260401774273785" />
-      <entry key="M10" value="21.670299199391426" />
-      <entry key="M15" value="28.597080455671456" />
-      <entry key="M30" value="50.08722536713393" />
-      <entry key="H1" value="79.30210567067952" />
-      <entry key="H2" value="106.50905396539144" />
-      <entry key="H4" value="125.89560003333253" />
-      <entry key="D1" value="146.33736547561958" />
-      <entry key="W1" value="150.32092692795254" />
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0000000000010547" />
+      <entry key="S2" value="1.002801237805158" />
+      <entry key="S5" value="1.3642210202766127" />
+      <entry key="S10" value="3.344895709643516" />
+      <entry key="S30" value="10.194557503315648" />
+      <entry key="S60" value="14.247980169745205" />
+      <entry key="M2" value="17.205988195303824" />
+      <entry key="M5" value="19.700632955408704" />
+      <entry key="M10" value="20.762323652565883" />
+      <entry key="M15" value="21.15825921542419" />
+      <entry key="M30" value="21.9699472323465" />
+      <entry key="H1" value="28.35851057799452" />
+      <entry key="H2" value="54.29880923877059" />
+      <entry key="H4" value="97.2459850788595" />
+      <entry key="D1" value="177.3590943827177" />
+      <entry key="W1" value="198.24596274323858" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
       <entry key="MS500" value="0.0" />
       <entry key="S2" value="0.0" />
-      <entry key="S5" value="1.54193E-318" />
-      <entry key="S10" value="1.2417434072082206E-159" />
-      <entry key="S30" value="1.0748403317091862E-53" />
-      <entry key="S60" value="3.278475761248183E-27" />
-      <entry key="M2" value="5.725797552523304E-14" />
-      <entry key="M5" value="5.048174926566409E-6" />
-      <entry key="M10" value="0.0022468143952196896" />
-      <entry key="M15" value="0.017154502668532773" />
-      <entry key="M30" value="0.13097519867720292" />
-      <entry key="H1" value="0.36190495807214745" />
-      <entry key="H2" value="0.6015853705602788" />
-      <entry key="H4" value="0.7756193464324344" />
-      <entry key="D1" value="0.9585352873288051" />
-      <entry key="W1" value="0.9939684203069641" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="8.38830284299729E-284" />
+      <entry key="S30" value="4.3774853414751964E-95" />
+      <entry key="S60" value="6.616256752481117E-48" />
+      <entry key="M2" value="2.5722085359630397E-24" />
+      <entry key="M5" value="3.6654092377585566E-10" />
+      <entry key="M10" value="1.9145297738426267E-5" />
+      <entry key="M15" value="7.157766625072469E-4" />
+      <entry key="M30" value="0.02709160016789698" />
+      <entry key="H1" value="0.18199235313186968" />
+      <entry key="H2" value="0.540191532338264" />
+      <entry key="H4" value="1.0044090482577233" />
+      <entry key="D1" value="1.7740407153421094" />
+      <entry key="W1" value="1.965789264263358" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.00646144495045183" />
-      <entry key="MS500" value="0.5392762234715247" />
-      <entry key="S2" value="3.0635938175529693" />
-      <entry key="S5" value="7.365160176830496" />
-      <entry key="S10" value="10.873870576044455" />
-      <entry key="S30" value="14.551294792150559" />
-      <entry key="S60" value="15.714970745094478" />
-      <entry key="M2" value="16.34570200359636" />
-      <entry key="M5" value="17.257470240833804" />
-      <entry key="M10" value="21.670947253868768" />
-      <entry key="M15" value="28.612862225489565" />
-      <entry key="M30" value="50.21635309990607" />
-      <entry key="H1" value="79.6617627577592" />
-      <entry key="H2" value="107.10876232136327" />
-      <entry key="H4" value="126.66999220633895" />
-      <entry key="D1" value="147.29564377953494" />
-      <entry key="W1" value="151.31485715599072" />
+      <entry key="MS100" value="0.9592641193252643" />
+      <entry key="MS500" value="0.9917167307393366" />
+      <entry key="S2" value="1.0007166880760583" />
+      <entry key="S5" value="1.3628200151353054" />
+      <entry key="S10" value="3.3414823278616193" />
+      <entry key="S30" value="10.188632163336719" />
+      <entry key="S60" value="14.243336710664" />
+      <entry key="M2" value="17.203054027299345" />
+      <entry key="M5" value="19.699270051624463" />
+      <entry key="M10" value="20.761624329797737" />
+      <entry key="M15" value="21.158485320642217" />
+      <entry key="M30" value="21.99674691914228" />
+      <entry key="H1" value="28.540137864559476" />
+      <entry key="H2" value="54.838351220160455" />
+      <entry key="H4" value="98.24964692691938" />
+      <entry key="D1" value="179.13286944822568" />
+      <entry key="W1" value="200.21170861295693" />
     </decayedShown>
   </component>
   <component name="ProblemsViewState">
@@ -230,7 +225,7 @@
       <option name="presentableId" value="Default" />
       <updated>1784364380224</updated>
       <workItem from="1785112364814" duration="3333000" />
-      <workItem from="1785176087865" duration="7620000" />
+      <workItem from="1785176087865" duration="16318000" />
     </task>
     <task id="LOCAL-00001" summary="logging service implementation done ,database connection done,kafka not working,logging properties no eureka">
       <option name="closed" value="true" />
@@ -240,7 +235,15 @@
       <option name="project" value="LOCAL" />
       <updated>1785112547177</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="error in user and eureka + logging not updated upon entry">
+      <option name="closed" value="true" />
+      <created>1785184093518</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1785184093518</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -249,7 +252,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="logging service implementation done ,database connection done,kafka not working" />
     <MESSAGE value="logging service implementation done ,database connection done,kafka not working,logging properties no eureka" />
-    <option name="LAST_COMMIT_MESSAGE" value="logging service implementation done ,database connection done,kafka not working,logging properties no eureka" />
+    <MESSAGE value="error in user and eureka + logging not updated upon entry" />
+    <MESSAGE value="Logging Service Done and tested on user service ,database updated,YAYYAYAY" />
+    <option name="LAST_COMMIT_MESSAGE" value="Logging Service Done and tested on user service ,database updated,YAYYAYAY" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>

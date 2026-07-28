@@ -1,6 +1,7 @@
 package com.example.LoggingService.kafka;
 
 import com.example.LoggingService.dto.LogMessage;
+import com.example.LoggingService.entity.LogEntry;
 import com.example.LoggingService.service.LoggingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,23 +31,59 @@ public class LogConsumer {
             groupId = "${spring.kafka.consumer.group-id}"
     )
     public void consume(String payload) {
+
+        logger.info(
+                "Kafka payload received: {}",
+                payload
+        );
+
+        LogMessage message;
+
+        /*
+         * Only malformed JSON is handled here.
+         */
         try {
-            LogMessage message =
-                    objectMapper.readValue(
-                            payload,
-                            LogMessage.class
-                    );
-
-            loggingService.save(message);
-
-
+            message = objectMapper.readValue(
+                    payload,
+                    LogMessage.class
+            );
         } catch (Exception exception) {
-
             logger.error(
-                    "Could not process Kafka log payload: {}",
+                    "Kafka payload is not valid LogMessage JSON: {}",
                     payload,
                     exception
             );
+
+            /*
+             * A malformed message cannot be repaired by retrying.
+             */
+            return;
+        }
+
+        /*
+         * Database errors must not be silently swallowed.
+         */
+        try {
+            LogEntry savedEntry =
+                    loggingService.save(message);
+
+            logger.info(
+                    "Kafka log saved successfully. id={}, type={}",
+                    savedEntry.getId(),
+                    savedEntry.getMessageType()
+            );
+
+        } catch (RuntimeException exception) {
+            logger.error(
+                    "Kafka message was valid, but saving it to MySQL failed. Payload: {}",
+                    payload,
+                    exception
+            );
+
+            /*
+             * Re-throw so Kafka knows message processing failed.
+             */
+            throw exception;
         }
     }
 }

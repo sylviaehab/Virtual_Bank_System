@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
-import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.ObjectMapper;
 
 import java.time.Instant;
 
@@ -16,60 +16,74 @@ public class LogProducer {
     private static final Logger logger =
             LoggerFactory.getLogger(LogProducer.class);
 
-    private static final String SERVICE_NAME = "user-service";
-
     private final KafkaTemplate<String, String> kafkaTemplate;
-    private final JsonMapper jsonMapper;
+    private final ObjectMapper objectMapper;
     private final String topicName;
 
     public LogProducer(
             KafkaTemplate<String, String> kafkaTemplate,
-            JsonMapper jsonMapper,
-            @Value("${app.kafka.log-topic}") String topicName
+            ObjectMapper objectMapper,
+            @Value("${app.kafka.log-topic}")
+            String topicName
     ) {
         this.kafkaTemplate = kafkaTemplate;
-        this.jsonMapper = jsonMapper;
+        this.objectMapper = objectMapper;
         this.topicName = topicName;
     }
 
     public void send(
             String messageType,
-            String message
+            Object body
     ) {
         try {
+            /*
+             * Convert the request or response into inner JSON.
+             */
+            String innerJson =
+                    objectMapper.writeValueAsString(body);
+
             LogMessage logMessage = new LogMessage(
-                    message,
+                    innerJson,
                     messageType,
                     Instant.now()
             );
 
+            /*
+             * Convert the complete LogMessage into Kafka JSON.
+             */
             String payload =
-                    jsonMapper.writeValueAsString(logMessage);
+                    objectMapper.writeValueAsString(logMessage);
 
-            kafkaTemplate.send(topicName, payload)
+            logger.info(
+                    "Publishing Kafka log to topic {}: {}",
+                    topicName,
+                    payload
+            );
+
+            kafkaTemplate
+                    .send(topicName, payload)
                     .whenComplete((result, exception) -> {
+
                         if (exception != null) {
-                            /*
-                             * Kafka logging failed, but the User API
-                             * must continue working.
-                             */
                             logger.error(
-                                    "Failed to publish Kafka log",
+                                    "Kafka failed to publish log to topic {}",
+                                    topicName,
                                     exception
                             );
                             return;
                         }
 
-                        logger.debug(
-                                "Published Kafka log to topic {}",
-                                topicName
+                        logger.info(
+                                "Kafka log published successfully. topic={}, partition={}, offset={}",
+                                result.getRecordMetadata().topic(),
+                                result.getRecordMetadata().partition(),
+                                result.getRecordMetadata().offset()
                         );
                     });
 
         } catch (Exception exception) {
-
             logger.error(
-                    "Could not create or publish Kafka log",
+                    "Could not create Kafka log message",
                     exception
             );
         }
