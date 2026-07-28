@@ -14,15 +14,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class KafkaProducerService {
 
-    private final KafkaTemplate<String, LogMessage> kafkaTemplate;
+   private final KafkaTemplate<String, Object> kafkaTemplate;
 
     @Value("${transaction.kafka.topic}")
     private String topic;
 
-    public KafkaProducerService(KafkaTemplate<String, LogMessage> kafkaTemplate) {
-        this.kafkaTemplate = kafkaTemplate;
-    }
-
+  public KafkaProducerService(KafkaTemplate<String, Object> kafkaTemplate) {
+    this.kafkaTemplate = kafkaTemplate;
+}
     public void sendLog(String message, String messageType) {
 
         LogMessage logMessage = new LogMessage(
