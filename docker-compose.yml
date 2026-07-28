@@ -83,10 +83,14 @@ services:
       DB_URL: jdbc:mysql://account-mysql:3306/account_service_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       DB_USERNAME: account_service_app
       DB_PASSWORD: ${ACCOUNT_DB_PASSWORD}
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+
     depends_on:
       account-mysql:
         condition: service_healthy
       eureka-server:
+        condition: service_started
+      kafka:
         condition: service_started
     restart: on-failure
 
@@ -96,7 +100,8 @@ services:
       dockerfile: Dockerfile
 
     container_name: bff-service
-
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     ports:
       - "8084:8084"
 
@@ -104,6 +109,8 @@ services:
 
     depends_on:
       eureka-server:
+        condition: service_started
+      kafka:
         condition: service_started
 
     restart: on-failure

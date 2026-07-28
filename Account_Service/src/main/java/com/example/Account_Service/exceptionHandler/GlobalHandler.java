@@ -60,4 +60,10 @@ public class GlobalHandler {
         return new ResponseEntity<>(new GlobalError(400, "Bad Request",
                 ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(DownstreamServiceException.class)
+    public ResponseEntity<GlobalError> handleDownstreamServiceException(DownstreamServiceException ex) {
+        return new ResponseEntity<>(new GlobalError(500, "Internal Server Error",
+                ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
