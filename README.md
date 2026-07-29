@@ -464,6 +464,36 @@ docker exec -it logging-service-mysql \
   -p \
   logging_service_db
 
+يعني لازم تقفلي الـ code block.
+
+يبقى شكله:
+
+````md
+```bash
+docker exec -it logging-service-mysql \
+  mysql \
+  -u logging_service_app \
+  -p \
+  logging_service_db
+
+---
+
+### 3) بعد كده سيبي:
+
+```md
+# 🚀 Running the Project
+```
+
+زي ما هو.
+
+---
+
+### 4) متعمليش أي حاجة تانية دلوقتي.
+
+بس أصلحي قفل الـ ```.
+
+المشكلة مش في المحتوى، المشكلة إن Markdown فاكر إن كل اللي بعد أمر MySQL كود بسبب إنك نسيتي تقفلي الـ block.
+
 # 🚀 Running the Project
 
 ## Build and Start
