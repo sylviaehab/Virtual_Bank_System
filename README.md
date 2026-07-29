@@ -204,7 +204,7 @@ It provides functionality for account creation, account retrieval, money transfe
 |---------|----------|-------------|
 | POST | `/accounts` | Create a bank account |
 | GET | `/accounts/{accountId}` | Retrieve account details |
-| GET | `/accounts/user/{userId}` | Retrieve all accounts for a user |
+| GET | `/accounts/users/{userId}` | Retrieve all accounts for a user |
 | PUT | `/accounts/transfer` | Transfer funds between accounts |
 
 ---
@@ -670,7 +670,7 @@ GET http://localhost:8082/accounts/{accountId}
 ## Get User Accounts
 
 ```http
-GET http://localhost:8082/accounts/user/{userId}
+GET http://localhost:8082/accounts/users/{userId}
 ```
 
 ---
