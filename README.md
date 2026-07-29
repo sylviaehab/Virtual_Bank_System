@@ -1,791 +1,598 @@
 # 💳 Virtual Bank System
 
-![Java](https://img.shields.io/badge/Java-17-orange)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.x-brightgreen)
-![MySQL](https://img.shields.io/badge/MySQL-8-blue)
-![Kafka](https://img.shields.io/badge/Apache-Kafka-black)
-![Docker](https://img.shields.io/badge/Docker-Compose-blue)
-![WSO2](https://img.shields.io/badge/WSO2-API_Manager-red)
-![Eureka](https://img.shields.io/badge/Spring-Cloud_Eureka-success)
+The **Virtual Bank System** is a microservices-based banking application designed to provide secure and scalable banking operations. The project demonstrates how multiple independent services can work together using Spring Boot, Spring Cloud, Apache Kafka, Docker, and WSO2 API Manager.
 
-A distributed **Virtual Banking System** developed using **Spring Boot Microservices** following modern enterprise architecture principles.
-
-The system demonstrates service decomposition, asynchronous communication using Kafka, service discovery using Eureka, API management through WSO2 API Manager, and frontend aggregation using the Backend for Frontend (BFF) pattern.
+The system follows a distributed architecture where each microservice is responsible for a specific business capability while communicating with other services through REST APIs.
 
 ---
 
 # 📖 Project Overview
 
-This project was developed as a **one-month internship project** to demonstrate how a modern banking platform can be implemented using a microservices architecture.
+The project consists of several independent microservices that collaborate to perform banking operations.
 
-Instead of building one monolithic application, the banking domain is divided into independent services responsible for different business capabilities. These services communicate through REST APIs while Kafka is used for centralized logging.
+The main objectives of the system are:
 
-The system also includes:
+- Manage users.
+- Manage bank accounts.
+- Process money transfers.
+- Aggregate data through a Backend for Frontend (BFF).
+- Centralize logging using Apache Kafka.
+- Publish and secure APIs using WSO2 API Manager.
+- Register services using Eureka Server.
 
-- Spring Cloud Eureka for Service Discovery
-- WSO2 API Manager as the API Gateway
-- Backend For Frontend (BFF)
-- Docker Compose deployment
-- MySQL databases
-- Kafka Logging Service
+---
 
-The objective is to provide hands-on experience in designing, developing, and deploying a secure and scalable distributed banking application.
-# 🎯 Project Goals
+# 🏗️ System Architecture
 
-The Virtual Bank System was designed to demonstrate modern backend development practices including:
+The system consists of the following components:
 
-- Building independent Spring Boot Microservices
-- Applying the Backend for Frontend (BFF) design pattern
-- Using WSO2 API Manager as the centralized API Gateway
-- Implementing asynchronous communication with Kafka
-- Service discovery using Eureka Server
-- Deploying services using Docker Compose
-- Implementing scheduled jobs
-- Maintaining centralized logging
-  # ✨ Features
-
-## User Management
-
-- User Registration
-- User Login
-- Password Hashing
-- User Profile Retrieval
-
-## Account Management
-
-- Create Bank Accounts
-- Account Balance Management
-- Account Retrieval
-- User Account Listing
-- Scheduled Inactive Account Detection
-
-## Transaction Management
-
-- Transfer Initiation
-- Transfer Execution
-- Transaction History
-- Transaction Status Tracking
-- Daily Interest Scheduler
-
-## Backend for Frontend
-
-- Dashboard Aggregation
-- Service Orchestration
-- Response Transformation
-
-## Logging
-
-- Kafka Producer
-- Kafka Consumer
-- Centralized Logging Database
-
-## API Management
-
-- OAuth2 Authentication
-- API Key Security
-- Rate Limiting
-- API Products
-- Request Routing
-
-## Infrastructure
-
-- Eureka Service Discovery
-- Docker Compose Deployment
+- Eureka Server
+- User Service
+- Account Service
+- Transaction Service
+- Backend For Frontend (BFF) Service
+- Logging Service
+- Apache Kafka
+- WSO2 API Manager
 - MySQL Databases
-- Kafka Messaging
-  # 🏗️ System Architecture
 
-```
-                Client
-                   │
-                   ▼
-        WSO2 API Gateway
-                   │
-      ┌────────────┴────────────┐
-      │                         │
-      ▼                         ▼
-  BFF Service             Microservices
-                                │
-     ┌──────────┬──────────┬──────────┬──────────┐
-     ▼          ▼          ▼          ▼
- User       Account   Transaction  Logging
- Service     Service     Service    Service
-                  │
-                  ▼
-               Kafka
-                  │
-                  ▼
-          Logging Service
+Each microservice owns its own database and communicates with other services using REST APIs.
 
-```
+Apache Kafka is used to transfer log messages asynchronously to the Logging Service.
 
-### Architecture Components
+WSO2 API Manager acts as the API Gateway for publishing and securing APIs.
 
-- **WSO2 API Gateway** acts as the single entry point.
-- **BFF Service** aggregates data for frontend applications.
-- **User Service** manages users.
-- **Account Service** manages bank accounts.
-- **Transaction Service** manages transfers.
-- **Logging Service** consumes Kafka messages and stores logs.
-- **Kafka** transports logging events.
-- **Eureka Server** enables service discovery.
-- **MySQL** stores persistent data for every service.
-  # 🛠️ Technology Stack
+---
 
-| Category | Technologies |
-|----------|--------------|
-| Language | Java 17 |
-| Framework | Spring Boot 4.x |
-| Build Tool | Maven |
-| Database | MySQL 8 |
-| ORM | Spring Data JPA / Hibernate |
-| Service Discovery | Spring Cloud Eureka |
-| API Gateway | WSO2 API Manager |
-| Messaging | Apache Kafka |
-| Containerization | Docker & Docker Compose |
-| HTTP Client | OpenFeign |
-| Scheduler | Spring Scheduler |
-| Authentication | Spring Security |
-| Password Encryption | BCrypt Password Encoder |
+# ⚙️ Technology Stack
+
+## Backend
+
+- Java
+- Spring Boot
+- Spring Data JPA
+- Spring Cloud
+- Spring Security
+- OpenFeign
+
+## Database
+
+- MySQL
+
+## Messaging
+
+- Apache Kafka
+
+## Service Discovery
+
+- Eureka Server
+
+## API Gateway
+
+- WSO2 API Manager
+
+## Containerization
+
+- Docker
+- Docker Compose
+
+---
+
 # 📁 Project Structure
 
 ```
 Virtual_Bank_System
 │
-├── Eureka_Server/
-│
-├── User_Service/
-│
-├── Account_Service/
-│
-├── Transaction_Service/
-│
-├── BFF_Service/
-│
-├── Logging_Service/
-│
+├── Eureka_Server
+├── User_Service
+├── Account_Service
+├── Transaction_Service
+├── BFF_Service
+├── Logging_Service
 ├── docker-compose.yml
-│
 └── README.md
 ```
 
-Each microservice owns:
+Each service is implemented independently and is responsible for a specific business domain.
 
-- Controller Layer
-- Service Layer
-- Repository Layer
-- DTOs
-- Entity Models
-- Exception Handling
-- Configuration
-  # 🔍 Microservices Overview
+---
 
-The Virtual Bank System follows a distributed architecture where every service has a single responsibility.
+# 🔍 Microservices Overview
 
-| Service | Responsibility |
-|----------|---------------|
-| Eureka Server | Service Discovery |
-| User Service | User registration and authentication |
-| Account Service | Bank account management |
-| Transaction Service | Money transfers |
-| BFF Service | Aggregates responses for frontend |
-| Logging Service | Kafka consumer and centralized logging |
+## User Service
+
+Responsible for managing user information and authentication.
+
+## Account Service
+
+Responsible for creating and managing bank accounts.
+
+## Transaction Service
+
+Responsible for processing transfers and maintaining transaction history.
+
+## Backend For Frontend (BFF)
+
+Aggregates responses from multiple services for frontend clients.
+
+## Logging Service
+
+Consumes Kafka messages and stores service logs.
+
+## Eureka Server
+
+Registers all microservices and enables service discovery.
+
+## WSO2 API Manager
+
+Publishes, secures, and manages APIs exposed by the system.
 # 👤 User Service
 
+## Overview
+
+The User Service is responsible for managing user information and authentication.
+
+It provides functionality for:
+
+- User registration
+- User login
+- Retrieving user profile information
+
+---
+
 ## Responsibilities
-
-The User Service is responsible for managing customer information.
-
-### Features
 
 - Register new users
-- Authenticate users
-- Retrieve user profile
-- Password hashing using BCrypt
+- Authenticate existing users
+- Retrieve user profile information
 
-### Database
+---
 
-Table:
-
-```
-users
-```
-
-Main fields include:
-
-- id
-- username
-- password_hash
-- email
-- first_name
-- last_name
-
-### REST Endpoints
+## API Endpoints
 
 | Method | Endpoint | Description |
 |---------|----------|-------------|
-| POST | /users/register | Register new user |
-| POST | /users/login | User login |
-| GET | /users/{id} | Get user profile |
+| POST | `/users/register` | Register a new user |
+| POST | `/users/login` | Authenticate a user |
+| GET | `/users/{userId}` | Retrieve user profile |
 
-### Business Rules
+---
 
-- Username must be unique.
-- Email must be unique.
-- Passwords are never stored as plain text.
-- Invalid credentials return an error.
-  # 🏦 Account Service
+## Registration
+
+Creates a new user after validating the request.
+
+The service ensures that duplicate users are not created.
+
+---
+
+## Login
+
+Authenticates a registered user using the provided credentials.
+
+---
+
+## User Profile
+
+Returns the information associated with a specific user.
+
+---
+
+# 🏦 Account Service
+
+## Overview
+
+The Account Service is responsible for managing customer bank accounts.
+
+It provides functionality for account creation, account retrieval, money transfers, and scheduled account monitoring.
+
+---
 
 ## Responsibilities
 
-The Account Service manages all customer bank accounts.
+- Create bank accounts
+- Retrieve account details
+- Retrieve accounts belonging to a user
+- Transfer funds between accounts
+- Monitor inactive accounts
 
-### Features
+---
 
-- Create account
-- Retrieve account
-- List user accounts
-- Deposit
-- Withdraw
-- Transfer between accounts
-- Scheduled inactive account detection
-
-### Database
-
-Table:
-
-```
-accounts
-```
-
-Main fields:
-
-- account_id
-- user_id
-- account_number
-- account_type
-- balance
-- status
-
-### REST Endpoints
+## API Endpoints
 
 | Method | Endpoint | Description |
 |---------|----------|-------------|
-| POST | /accounts | Create account |
-| GET | /accounts/{accountId} | Get account |
-| GET | /accounts | List accounts |
-| PUT | /accounts/deposit | Deposit |
-| PUT | /accounts/withdraw | Withdraw |
-| PUT | /accounts/transfer | Internal transfer |
+| POST | `/accounts` | Create a bank account |
+| GET | `/accounts/{accountId}` | Retrieve account details |
+| GET | `/accounts/user/{userId}` | Retrieve all accounts for a user |
+| PUT | `/accounts/transfer` | Transfer funds between accounts |
 
-### Business Rules
+---
 
-- Balance cannot become negative.
-- Transfers require sufficient funds.
-- Accounts have ACTIVE and INACTIVE states.
-- Scheduled jobs monitor inactive accounts.
-  # 🏦 Account Service
+## Create Account
+
+Creates a new bank account for an existing user.
+
+---
+
+## Retrieve Account
+
+Returns the details of a specific account.
+
+---
+
+## Retrieve User Accounts
+
+Returns all accounts that belong to a particular user.
+
+---
+
+## Transfer Funds
+
+Transfers money between two accounts after validating the request.
+
+---
+
+## Scheduled Task
+
+The Account Service includes a scheduled process that monitors inactive accounts according to the project requirements.
+# 💸 Transaction Service
+
+## Overview
+
+The Transaction Service is responsible for processing money transfers between accounts and maintaining transaction records.
+
+It manages the transfer lifecycle from initiation to execution and provides transaction history.
+
+---
 
 ## Responsibilities
 
-The Account Service manages all customer bank accounts.
+- Initiate money transfers
+- Execute initiated transfers
+- Store transaction records
+- Retrieve transaction history
+- Process scheduled interest credits
 
-### Features
+---
 
-- Create account
-- Retrieve account
-- List user accounts
-- Deposit
-- Withdraw
-- Transfer between accounts
-- Scheduled inactive account detection
-
-### Database
-
-Table:
-
-```
-accounts
-```
-
-Main fields:
-
-- account_id
-- user_id
-- account_number
-- account_type
-- balance
-- status
-
-### REST Endpoints
+## API Endpoints
 
 | Method | Endpoint | Description |
 |---------|----------|-------------|
-| POST | /accounts | Create account |
-| GET | /accounts/{accountId} | Get account |
-| GET | /accounts | List accounts |
-| PUT | /accounts/deposit | Deposit |
-| PUT | /accounts/withdraw | Withdraw |
-| PUT | /accounts/transfer | Internal transfer |
-
-### Business Rules
-
-- Balance cannot become negative.
-- Transfers require sufficient funds.
-- Accounts have ACTIVE and INACTIVE states.
-- Scheduled jobs monitor inactive accounts.
-  # 💸 Transaction Service
-
-## Responsibilities
-
-The Transaction Service is responsible for managing all money transfer operations between bank accounts.
-
-Unlike the Account Service, it records every transfer, tracks its lifecycle, and provides transaction history.
+| POST | `/transactions/transfer/initiation` | Initiate a money transfer |
+| POST | `/transactions/transfer/execution` | Execute an initiated transfer |
+| GET | `/accounts/{accountId}/transactions` | Retrieve transaction history for an account |
 
 ---
 
-## Features
+## Transfer Initiation
 
-- Transfer Initiation
-- Transfer Execution
-- Transaction History
-- Transaction Status Tracking
-- Daily Interest Scheduler
-- Kafka Logging
-- Account validation using Account Service
-- Transaction persistence
+Creates a new transaction with an initial status before the transfer is executed.
 
 ---
 
-## Transaction Lifecycle
+## Transfer Execution
 
-```
-INITIATED
-      │
-      ▼
-Execute Transfer
-      │
-      ├──────────────► SUCCESS
-      │
-      └──────────────► FAILED
-```
+Executes a previously initiated transaction by communicating with the Account Service.
 
----
-
-## Database
-
-Table:
-
-```
-transactions
-```
-
-Main Columns
-
-- transaction_id
-- from_account_id
-- to_account_id
-- amount
-- description
-- status
-- created_at
-- updated_at
-
----
-
-## Transaction Status
-
-| Status | Description |
-|---------|-------------|
-| INITIATED | Transfer request has been created |
-| SUCCESS | Transfer completed successfully |
-| FAILED | Transfer failed |
-
----
-
-## REST Endpoints
-
-| Method | Endpoint | Description |
-|---------|----------|-------------|
-| POST | /transactions/transfer/initiation | Create transfer request |
-| POST | /transactions/transfer/execution | Execute an initiated transfer |
-| GET | /accounts/{accountId}/transactions | Retrieve transaction history |
-
----
-
-## Transfer Flow
-
-### Step 1
-
-Client sends a transfer initiation request.
-
-↓
-
-Transaction Service validates:
-
-- Source account exists
-- Destination account exists
-
-↓
-
-Creates transaction with:
-
-```
-Status = INITIATED
-```
-
-↓
-
-Stores transaction in database.
-
----
-
-### Step 2
-
-Client requests execution.
-
-↓
-
-Transaction Service calls Account Service.
-
-↓
-
-If transfer succeeds:
-
-```
-Status = SUCCESS
-```
-
-↓
-
-If transfer fails:
-
-```
-Status = FAILED
-```
-
-The FAILED status is persisted even if the surrounding transaction rolls back by updating it in a separate transaction.
+The transaction status is updated according to the execution result.
 
 ---
 
 ## Transaction History
 
-History returns every transaction where the account is either:
-
-- Sender
-- Receiver
-
-Rules:
-
-- Outgoing amounts are returned as negative values.
-- Incoming amounts are returned as positive values.
-- Delivery status is mapped to:
-  - SENT
-  - DELIVERED
-  - FAILED
-    # 📊 Logging Service
-
-## Responsibilities
-
-The Logging Service centralizes logs generated by all microservices.
-
-Instead of each service writing directly to a logging database, services publish log messages to Kafka.
-
-The Logging Service consumes these messages and stores them in its database.
+Returns the transaction history associated with a specific account.
 
 ---
-
-## Features
-
-- Kafka Consumer
-- Persistent Log Storage
-- Request Logging
-- Response Logging
-- Error Logging
-
----
-
-## Database
-
-Table:
-
-```
-service_logs
-```
-
-Fields
-
-- id
-- message_type
-- message
-- date_time
-
----
-
-## Log Types
-
-### Request
-
-Example
-
-```
-Transfer initiation requested.
-```
-
-### Response
-
-Example
-
-```
-Transaction executed successfully.
-```
-
-### Error
-
-Example
-
-```
-Insufficient funds.
-```
-# 📡 Kafka Flow
-
-Kafka is used for asynchronous centralized logging.
-
-```
-User Service
-        │
-        ▼
-Kafka Producer
-        │
-        ▼
-Apache Kafka Topic
-        │
-        ▼
-Logging Service
-        │
-        ▼
-MySQL
-```
-
-Every service publishes log messages.
-
-Examples include:
-
-- Incoming requests
-- Successful responses
-- Failed responses
-- Validation errors
-- Scheduler events
-
-The Logging Service subscribes to the Kafka topic and stores every received message in the `service_logs` table.
-# ⏰ Scheduled Jobs
-
-The project includes automated scheduled jobs.
 
 ## Daily Interest Scheduler
 
-Runs periodically.
+The Transaction Service includes a scheduled task that calculates and credits daily interest to eligible accounts.
 
-Responsibilities:
-
-- Retrieve active savings accounts.
-- Calculate daily interest.
-- Create transaction records.
-- Execute transfers from the system account.
-- Log success or failure.
+The scheduler retrieves the required accounts, calculates the interest amount, performs the transfer, and records the corresponding transaction.
 
 ---
 
-## Inactive Account Scheduler
+# 📊 Logging Service
 
-Runs periodically.
+## Overview
 
-Responsibilities:
+The Logging Service centralizes application logs generated by all microservices.
 
-- Detect inactive accounts.
-- Update account status.
-- Record scheduler activity.
-  # 🖥️ Backend For Frontend (BFF)
-
-## Responsibilities
-
-The BFF Service acts as a dedicated backend layer for frontend clients.
-
-Instead of calling multiple microservices directly, the frontend communicates only with the BFF.
-
-The BFF coordinates requests across services and returns a single aggregated response.
+Instead of each service storing logs independently, log messages are published to Apache Kafka and consumed by the Logging Service.
 
 ---
 
 ## Responsibilities
 
-- Aggregate data
-- Reduce frontend complexity
-- Call multiple services
-- Build dashboard responses
-- Hide internal microservice structure
+- Consume Kafka messages
+- Store service logs
+- Record request messages
+- Record response messages
 
 ---
 
-## Example Flow
+## Logging Flow
 
-```
-Frontend
+Each microservice publishes log messages to Apache Kafka.
 
-↓
+The Logging Service subscribes to the configured Kafka topic and persists the received logs into its database.
 
-BFF Service
+---
 
-↓
+# 📡 Apache Kafka
 
-User Service
+Apache Kafka is used as the messaging platform for centralized logging.
 
-↓
+All participating services publish request and response log messages.
 
-Account Service
+The Logging Service acts as the Kafka consumer and stores the received messages.
 
-↓
+---
 
-Transaction Service
+## Kafka Producer
 
-↓
+Implemented by the application services to publish log messages.
 
-Single Response
-```
-# 🌐 Eureka Server
+---
 
-Spring Cloud Eureka is used for service discovery.
+## Kafka Consumer
 
-Each microservice registers itself with Eureka at startup.
+Implemented by the Logging Service to consume and persist log messages.
 
-Instead of using fixed IP addresses, services communicate using service names.
+---
 
-Example:
+## Message Types
 
-```
-http://account-service
-```
+The document describes two message types:
 
-instead of
+- Request
+- Response
 
-```
-http://localhost:8082
-```
+---
 
-Benefits include:
+# ⏰ Scheduled Jobs
 
-- Dynamic service registration
-- Load balancing support
-- Easier scalability
-- Reduced configuration
-  # 🌐 WSO2 API Manager
+The project includes scheduled background tasks.
 
-The Virtual Bank System exposes its APIs through **WSO2 API Manager**, which acts as the central API Gateway.
+## Account Service
 
-Instead of clients calling individual microservices directly, all requests pass through WSO2.
+The Account Service includes a scheduled process for monitoring inactive accounts.
+
+---
+
+## Transaction Service
+
+The Transaction Service includes a scheduled process responsible for calculating and crediting daily interest.
+# 🌐 WSO2 API Manager
+
+## Overview
+
+The Virtual Bank System uses **WSO2 API Manager** as the API Gateway.
+
+WSO2 provides a centralized entry point for the system APIs and offers API publishing, subscription management, authentication, and monitoring capabilities.
 
 ---
 
 ## Responsibilities
 
 - Publish APIs
+- Manage API subscriptions
 - Secure APIs
-- Generate OAuth2 Access Tokens
-- API Key Authentication
-- Rate Limiting
-- API Versioning
-- API Products
-- Request Routing
+- Route client requests
+- Manage API lifecycle
 
 ---
 
-## API Gateway Flow
+## API Publishing
 
-```
-Client
-   │
-   ▼
-WSO2 API Manager
-   │
-   ▼
-Backend For Frontend (BFF)
-   │
-   ▼
-Microservices
-```
+The project APIs are published through the WSO2 Publisher Portal.
+
+Once published, APIs become available for subscription through the Developer Portal.
 
 ---
 
-## Published APIs
+## API Subscription
 
-- User API
-- Account API
-- Transaction API
-- Dashboard API (BFF)
+Applications subscribe to the published APIs before invoking them.
 
-Each API can be tested through the WSO2 Developer Portal after subscribing to an application and generating an access token.
-# 🔒 Security
-
-The project applies several security mechanisms.
-
-## Password Security
-
-Passwords are encrypted using **BCrypt Password Encoder** before being stored in the database.
+After subscription, an access token can be generated for authenticated requests.
 
 ---
 
-## API Authentication
+## API Product
 
-WSO2 API Manager supports:
-
-- OAuth2
-- API Keys
-
-Clients must obtain an access token before invoking protected APIs.
+The project also demonstrates the use of an API Product, allowing multiple APIs to be grouped and exposed as a single product.
 
 ---
 
-## Validation
+# 🔐 Security
 
-Business validation includes:
+The project uses WSO2 API Manager to secure exposed APIs.
 
-- Duplicate usernames
-- Duplicate emails
-- Invalid credentials
-- Invalid account IDs
-- Same source and destination account
-- Insufficient funds
-  # 🐳 Docker Deployment
+Authentication is performed using OAuth2 access tokens generated after subscribing to an application.
 
-All services run using Docker Compose.
+---
 
-## Containers
+# 🐳 Docker Deployment
+
+The application is deployed using Docker Compose.
+
+Each microservice runs inside its own Docker container together with the required infrastructure components.
+
+---
+
+## Infrastructure Components
+
+The deployment includes:
 
 - Eureka Server
 - User Service
-- User MySQL
 - Account Service
-- Account MySQL
 - Transaction Service
-- Transaction MySQL
+- Backend for Frontend (BFF)
 - Logging Service
-- Logging MySQL
-- BFF Service
-- Kafka
+- Apache Kafka
 - ZooKeeper
+- MySQL databases
 - WSO2 API Manager
 
 ---
 
-## Start the Project
+# 🚀 Running the Project
+
+## Build and Start
+
+Build and start all services using Docker Compose.
+
+After the containers start successfully:
+
+- Verify that Eureka Server is running.
+- Verify that all services are registered.
+- Access WSO2 API Manager.
+- Publish and subscribe to the required APIs.
+- Generate an access token.
+- Invoke the APIs through WSO2.
+
+---
+
+# 🔄 System Workflow
+
+The overall system workflow is as follows:
+
+1. The client sends a request.
+2. The request reaches WSO2 API Manager.
+3. WSO2 forwards the request to the appropriate backend service.
+4. Services communicate with one another when required.
+5. Log messages are published to Apache Kafka.
+6. Logging Service consumes the messages and stores them.
+7. The response is returned to the client.
+
+---
+
+# 📚 Project Components Summary
+
+| Component | Responsibility |
+|----------|----------------|
+| Eureka Server | Service Discovery |
+| User Service | User management and authentication |
+| Account Service | Account management |
+| Transaction Service | Money transfer processing |
+| Backend for Frontend | Response aggregation |
+| Logging Service | Centralized logging |
+| Apache Kafka | Message broker for logging |
+| WSO2 API Manager | API Gateway |
+
+---
+
+# 📌 Conclusion
+
+The Virtual Bank System demonstrates the implementation of a microservices-based banking application using Spring Boot and Spring Cloud.
+
+The project integrates service discovery, centralized logging through Apache Kafka, API management using WSO2 API Manager, and containerized deployment with Docker Compose to provide a modular and scalable architecture.
+# 🐳 Docker Deployment
+
+The Virtual Bank System is containerized using **Docker Compose**. Each microservice and infrastructure component runs in its own container.
+
+---
+
+## Infrastructure Containers
+
+| Container | Description | Port |
+|----------|-------------|------|
+| eureka-server | Service Discovery | 8761 |
+| user-service | User Service | 8081 |
+| user-service-mysql | User Service Database | 3307 |
+| account-service | Account Service | 8082 |
+| account-service-mysql | Account Service Database | 3308 |
+| transaction-service | Transaction Service | 8083 |
+| transaction-service-mysql | Transaction Service Database | 3309 |
+| bff-service | Backend For Frontend | 8084 |
+| logging-service | Logging Service | 8085 |
+| logging-service-mysql | Logging Database | 3310 |
+| kafka | Apache Kafka | 9092 |
+| zookeeper | Apache ZooKeeper | 2181 |
+| wso2am | WSO2 API Manager | 9443, 8243 |
+
+---
+
+# 🚀 Running the Project
+
+## Clone the Repository
 
 ```bash
-docker compose up --build
+git clone <repository-url>
+cd Virtual_Bank_System
 ```
 
 ---
 
-## Stop the Project
+## Build All Services
+
+```bash
+docker compose build
+```
+
+---
+
+## Start All Containers
+
+```bash
+docker compose up -d
+```
+
+Or build and start together:
+
+```bash
+docker compose up --build -d
+```
+
+---
+
+## View Running Containers
+
+```bash
+docker ps
+```
+
+---
+
+## View Logs
+
+Transaction Service
+
+```bash
+docker logs -f transaction-service
+```
+
+Account Service
+
+```bash
+docker logs -f account-service
+```
+
+User Service
+
+```bash
+docker logs -f user-service
+```
+
+Logging Service
+
+```bash
+docker logs -f logging-service
+```
+
+Kafka
+
+```bash
+docker logs -f kafka
+```
+
+---
+
+## Stop All Containers
 
 ```bash
 docker compose down
@@ -793,161 +600,143 @@ docker compose down
 
 ---
 
-## Rebuild Images
+## Rebuild Containers
 
 ```bash
-docker compose up --build --force-recreate
-```
-# 🚀 Running the Project
-
-## 1. Clone Repository
-
-```bash
-git clone <repository-url>
-```
-
----
-
-## 2. Navigate
-
-```bash
-cd Virtual_Bank_System
-```
-
----
-
-## 3. Configure Environment
-
-Update the database passwords and environment variables inside:
-
-```
-docker-compose.yml
-```
-
----
-
-## 4. Build
-
-```bash
+docker compose down
 docker compose up --build
 ```
 
 ---
 
-## 5. Verify Services
+# 🌐 Service URLs
 
-Open Eureka Dashboard:
-
-```
-http://localhost:8761
-```
-
-Verify all services are registered successfully.
-
----
-
-## 6. Import APIs into WSO2
-
-Import the generated API archives through the Publisher Portal.
-
-Generate an OAuth2 Access Token.
-
-Invoke the published APIs using:
-
-- Postman
-- cURL
-  # 🧪 Testing
-
-The APIs can be tested using:
-
-- Postman
-- cURL
-- WSO2 Developer Portal
+| Service | URL |
+|---------|-----|
+| Eureka Dashboard | http://localhost:8761 |
+| User Service | http://localhost:8081 |
+| Account Service | http://localhost:8082 |
+| Transaction Service | http://localhost:8083 |
+| BFF Service | http://localhost:8084 |
+| Logging Service | http://localhost:8085 |
+| WSO2 Publisher | https://localhost:9443/publisher |
+| WSO2 Developer Portal | https://localhost:9443/devportal |
+| WSO2 Gateway | https://localhost:8243 |
 
 ---
 
-## Example: Register User
+# 🧪 Testing APIs
+
+## Register User
 
 ```http
-POST /users/register
+POST http://localhost:8081/users/register
 ```
 
 ---
 
-## Example: Login
+## Login
 
 ```http
-POST /users/login
+POST http://localhost:8081/users/login
 ```
 
 ---
 
-## Example: Create Account
+## Get User Profile
 
 ```http
-POST /accounts
+GET http://localhost:8081/users/{userId}
 ```
 
 ---
 
-## Example: Transfer Initiation
+## Create Account
 
 ```http
-POST /transactions/transfer/initiation
+POST http://localhost:8082/accounts
 ```
 
 ---
 
-## Example: Transfer Execution
+## Get Account
 
 ```http
-POST /transactions/transfer/execution
+GET http://localhost:8082/accounts/{accountId}
 ```
 
 ---
 
-## Example: Transaction History
+## Get User Accounts
 
 ```http
-GET /accounts/{accountId}/transactions
+GET http://localhost:8082/accounts/user/{userId}
 ```
 
 ---
 
-## Example: Dashboard
+## Transfer Funds
 
 ```http
-GET /dashboard/{userId}
+PUT http://localhost:8082/accounts/transfer
 ```
-# 📚 API Summary
 
-| Service | Endpoint |
-|----------|----------|
-| User | POST /users/register |
-| User | POST /users/login |
-| User | GET /users/{id} |
-| Account | POST /accounts |
-| Account | GET /accounts/{accountId} |
-| Account | GET /accounts |
-| Account | PUT /accounts/deposit |
-| Account | PUT /accounts/withdraw |
-| Account | PUT /accounts/transfer |
-| Transaction | POST /transactions/transfer/initiation |
-| Transaction | POST /transactions/transfer/execution |
-| Transaction | GET /accounts/{accountId}/transactions |
-| BFF | GET /dashboard/{userId} |
-# 📈 Future Improvements
+---
 
-Potential future enhancements include:
+## Initiate Transfer
 
-- JWT Authentication
-- Distributed Tracing
-- Centralized Configuration Server
-- Circuit Breaker and Retry Policies
-- Monitoring with Prometheus & Grafana
-- ELK Stack Integration
-- Kubernetes Deployment
-- CI/CD Pipelines with GitHub Actions
-- Notification Service
-- Email and SMS Alerts
- 
+```http
+POST http://localhost:8083/transactions/transfer/initiation
+```
+
+---
+
+## Execute Transfer
+
+```http
+POST http://localhost:8083/transactions/transfer/execution
+```
+
+---
+
+## Transaction History
+
+```http
+GET http://localhost:8083/accounts/{accountId}/transactions
+```
+
+---
+
+# 📡 WSO2 Testing
+
+After publishing the APIs in WSO2:
+
+1. Open **Publisher**
+   ```
+   https://localhost:9443/publisher
+   ```
+
+2. Publish the API.
+
+3. Open **Developer Portal**
+   ```
+   https://localhost:9443/devportal
+   ```
+
+4. Subscribe to the API.
+
+5. Generate an OAuth2 access token.
+
+6. Invoke the API through the Gateway.
+
+Example:
+
+```http
+POST https://localhost:8243/vbank/1.0.0/transactions/transfer/initiation
+```
+
+or
+
+```http
+POST https://localhost:8243/vbank/1.0.0/transactions/transfer/execution
+```
