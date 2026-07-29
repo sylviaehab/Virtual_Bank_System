@@ -6,6 +6,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.Transaction_Service.client.AccountServiceClient;
@@ -19,6 +20,7 @@ import com.example.Transaction_Service.exception.BadRequestException;
 import com.example.Transaction_Service.exception.ResourceNotFoundException;
 import com.example.Transaction_Service.kafka.KafkaProducerService;
 import com.example.Transaction_Service.repository.TransactionRepository;
+import com.example.Transaction_Service.service.TransactionStatusService;
 
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +34,7 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final AccountServiceClient accountServiceClient;
     private final KafkaProducerService kafkaProducerService;
+    private final TransactionStatusService transactionStatusService;
 
 
     /**
@@ -155,11 +158,10 @@ public class TransactionService {
 
         } catch (FeignException.BadRequest ex) {
 
-
-            transaction.setStatus(TransactionStatus.FAILED);
-
-            transactionRepository.save(transaction);
-
+            // Marked in a SEPARATE transaction (REQUIRES_NEW) so this FAILED
+            // status survives even though this method's own @Transactional
+            // will roll back everything else once BadRequestException is thrown.
+           transactionStatusService.markTransactionFailed(transactionId);
 
             kafkaProducerService.sendLog(
                     "Transaction failed. "
@@ -176,11 +178,7 @@ public class TransactionService {
 
         } catch (Exception ex) {
 
-
-            transaction.setStatus(TransactionStatus.FAILED);
-
-            transactionRepository.save(transaction);
-
+            transactionStatusService.markTransactionFailed(transactionId);
 
             kafkaProducerService.sendLog(
                     "Transaction failed. "
@@ -222,6 +220,9 @@ public class TransactionService {
                 .build();
     }
 
+
+  
+  
 
 
 
