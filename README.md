@@ -126,6 +126,9 @@ Registers all microservices and enables service discovery.
 ## WSO2 API Manager
 
 Publishes, secures, and manages APIs exposed by the system.
+
+---
+
 # 👤 User Service
 
 ## Overview
@@ -345,7 +348,7 @@ Implemented by the Logging Service to consume and persist log messages.
 
 ## Message Types
 
-The document describes two message types:
+The system uses two message types:
 
 - Request
 - Response
@@ -365,6 +368,9 @@ The Account Service includes a scheduled process for monitoring inactive account
 ## Transaction Service
 
 The Transaction Service includes a scheduled process responsible for calculating and crediting daily interest.
+
+---
+
 # 🌐 WSO2 API Manager
 
 ## Overview
@@ -417,28 +423,30 @@ Authentication is performed using OAuth2 access tokens generated after subscribi
 
 # 🐳 Docker Deployment
 
-The application is deployed using Docker Compose.
+The Virtual Bank System is containerized using **Docker Compose**.
 
-Each microservice runs inside its own Docker container together with the required infrastructure components.
-
----
-
-## Infrastructure Components
-
-The deployment includes:
-
-- Eureka Server
-- User Service
-- Account Service
-- Transaction Service
-- Backend for Frontend (BFF)
-- Logging Service
-- Apache Kafka
-- ZooKeeper
-- MySQL databases
-- WSO2 API Manager
+Each microservice and infrastructure component runs in its own container.
 
 ---
+
+## Infrastructure Containers
+
+| Container | Description | Port |
+|----------|-------------|------|
+| eureka-server | Service Discovery | 8761 |
+| user-service | User Service | 8081 |
+| user-service-mysql | User Service Database | 3307 |
+| account-service | Account Service | 8082 |
+| account-service-mysql | Account Service Database | 3308 |
+| transaction-service | Transaction Service | 8083 |
+| transaction-service-mysql | Transaction Service Database | 3309 |
+| bff-service | Backend For Frontend | 8084 |
+| logging-service | Logging Service | 8085 |
+| logging-service-mysql | Logging Database | 3310 |
+| kafka | Apache Kafka | 9092 |
+| zookeeper | Apache ZooKeeper | 2181 |
+| wso2am | WSO2 API Manager | 9443, 8243 |
+
 ---
 
 # 🗄️ Logging Database Access
@@ -463,111 +471,37 @@ docker exec -it logging-service-mysql \
   -u logging_service_app \
   -p \
   logging_service_db
-
-يعني لازم تقفلي الـ code block.
-
-يبقى شكله:
-
-````md
-```bash
-docker exec -it logging-service-mysql \
-  mysql \
-  -u logging_service_app \
-  -p \
-  logging_service_db
-
----
-
-### 3) بعد كده سيبي:
-
-```md
-# 🚀 Running the Project
 ```
 
-زي ما هو.
+After executing the command, enter the MySQL password configured in the `docker-compose.yml` file.
 
 ---
 
-### 4) متعمليش أي حاجة تانية دلوقتي.
+## Database Inspection
 
-بس أصلحي قفل الـ ```.
+After connecting to MySQL, you can inspect stored logs:
 
-المشكلة مش في المحتوى، المشكلة إن Markdown فاكر إن كل اللي بعد أمر MySQL كود بسبب إنك نسيتي تقفلي الـ block.
+```sql
+SHOW TABLES;
+```
 
-# 🚀 Running the Project
+Retrieve log records:
 
-## Build and Start
-
-Build and start all services using Docker Compose.
-
-After the containers start successfully:
-
-- Verify that Eureka Server is running.
-- Verify that all services are registered.
-- Access WSO2 API Manager.
-- Publish and subscribe to the required APIs.
-- Generate an access token.
-- Invoke the APIs through WSO2.
+```sql
+SELECT * FROM logs;
+```
 
 ---
 
-# 🔄 System Workflow
+## Logging Flow
 
-The overall system workflow is as follows:
+The centralized logging process works as follows:
 
-1. The client sends a request.
-2. The request reaches WSO2 API Manager.
-3. WSO2 forwards the request to the appropriate backend service.
-4. Services communicate with one another when required.
-5. Log messages are published to Apache Kafka.
-6. Logging Service consumes the messages and stores them.
-7. The response is returned to the client.
-
----
-
-# 📚 Project Components Summary
-
-| Component | Responsibility |
-|----------|----------------|
-| Eureka Server | Service Discovery |
-| User Service | User management and authentication |
-| Account Service | Account management |
-| Transaction Service | Money transfer processing |
-| Backend for Frontend | Response aggregation |
-| Logging Service | Centralized logging |
-| Apache Kafka | Message broker for logging |
-| WSO2 API Manager | API Gateway |
-
----
-
-# 📌 Conclusion
-
-The Virtual Bank System demonstrates the implementation of a microservices-based banking application using Spring Boot and Spring Cloud.
-
-The project integrates service discovery, centralized logging through Apache Kafka, API management using WSO2 API Manager, and containerized deployment with Docker Compose to provide a modular and scalable architecture.
-# 🐳 Docker Deployment
-
-The Virtual Bank System is containerized using **Docker Compose**. Each microservice and infrastructure component runs in its own container.
-
----
-
-## Infrastructure Containers
-
-| Container | Description | Port |
-|----------|-------------|------|
-| eureka-server | Service Discovery | 8761 |
-| user-service | User Service | 8081 |
-| user-service-mysql | User Service Database | 3307 |
-| account-service | Account Service | 8082 |
-| account-service-mysql | Account Service Database | 3308 |
-| transaction-service | Transaction Service | 8083 |
-| transaction-service-mysql | Transaction Service Database | 3309 |
-| bff-service | Backend For Frontend | 8084 |
-| logging-service | Logging Service | 8085 |
-| logging-service-mysql | Logging Database | 3310 |
-| kafka | Apache Kafka | 9092 |
-| zookeeper | Apache ZooKeeper | 2181 |
-| wso2am | WSO2 API Manager | 9443, 8243 |
+1. Microservices generate request and response log messages.
+2. Log messages are published to Apache Kafka.
+3. Logging Service consumes messages from Kafka.
+4. Logs are stored in the Logging Service MySQL database.
+5. Logs can be reviewed directly from the database container.
 
 ---
 
@@ -601,9 +535,6 @@ Or build and start together:
 ```bash
 docker compose up --build -d
 ```
-
----
-
 ## View Running Containers
 
 ```bash
@@ -614,31 +545,31 @@ docker ps
 
 ## View Logs
 
-Transaction Service
+### Transaction Service
 
 ```bash
 docker logs -f transaction-service
 ```
 
-Account Service
+### Account Service
 
 ```bash
 docker logs -f account-service
 ```
 
-User Service
+### User Service
 
 ```bash
 docker logs -f user-service
 ```
 
-Logging Service
+### Logging Service
 
 ```bash
 docker logs -f logging-service
 ```
 
-Kafka
+### Kafka
 
 ```bash
 docker logs -f kafka
@@ -765,32 +696,89 @@ GET http://localhost:8083/accounts/{accountId}/transactions
 
 After publishing the APIs in WSO2:
 
-1. Open **Publisher**
-   ```
-   https://localhost:9443/publisher
-   ```
+1. Open **Publisher Portal**
 
-2. Publish the API.
+```
+https://localhost:9443/publisher
+```
+
+2. Create and publish the API.
 
 3. Open **Developer Portal**
-   ```
-   https://localhost:9443/devportal
-   ```
 
-4. Subscribe to the API.
+```
+https://localhost:9443/devportal
+```
 
-5. Generate an OAuth2 access token.
+4. Create an application.
 
-6. Invoke the API through the Gateway.
+5. Subscribe the application to the published API.
 
-Example:
+6. Generate an OAuth2 access token.
+
+7. Invoke the API through WSO2 Gateway.
+
+---
+
+## Example Gateway Requests
+
+### Transfer Initiation
 
 ```http
 POST https://localhost:8243/vbank/1.0.0/transactions/transfer/initiation
 ```
 
-or
+---
+
+### Transfer Execution
 
 ```http
 POST https://localhost:8243/vbank/1.0.0/transactions/transfer/execution
 ```
+
+---
+
+# 🔄 System Workflow
+
+The overall system workflow is:
+
+1. The client sends a request.
+2. The request reaches WSO2 API Manager.
+3. WSO2 routes the request to the required backend service.
+4. Microservices communicate through REST APIs when required.
+5. Services publish request and response logs to Apache Kafka.
+6. Logging Service consumes Kafka messages.
+7. Logs are stored in the Logging Service MySQL database.
+8. The response is returned to the client.
+
+---
+
+# 📚 Project Components Summary
+
+| Component | Responsibility |
+|----------|----------------|
+| Eureka Server | Service Discovery |
+| User Service | User management and authentication |
+| Account Service | Account management |
+| Transaction Service | Money transfer processing |
+| Backend for Frontend | Response aggregation |
+| Logging Service | Centralized logging |
+| Apache Kafka | Message broker for logging |
+| WSO2 API Manager | API Gateway |
+
+---
+
+# 📌 Conclusion
+
+The Virtual Bank System demonstrates the implementation of a microservices-based banking application using Spring Boot and Spring Cloud.
+
+The project integrates:
+
+- Service discovery using Eureka Server.
+- Independent microservices architecture.
+- Inter-service communication using REST APIs and OpenFeign.
+- Centralized logging using Apache Kafka.
+- API publishing and security using WSO2 API Manager.
+- Containerized deployment using Docker Compose.
+
+The system provides a modular, scalable, and maintainable architecture for building distributed banking applications.
