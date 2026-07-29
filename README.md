@@ -439,6 +439,30 @@ The deployment includes:
 - WSO2 API Manager
 
 ---
+---
+
+# 🗄️ Logging Database Access
+
+The Logging Service stores centralized application logs received from Apache Kafka in its own MySQL database.
+
+The database runs inside a dedicated Docker container:
+
+| Container | Description | Port |
+|----------|-------------|------|
+| logging-service-mysql | Logging Database | 3310 |
+
+---
+
+## Access Logging Database
+
+To access the Logging Service MySQL database inside the Docker container:
+
+```bash
+docker exec -it logging-service-mysql \
+  mysql \
+  -u logging_service_app \
+  -p \
+  logging_service_db
 
 # 🚀 Running the Project
 
