@@ -59,6 +59,7 @@ services:
 
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       APP_KAFKA_LOG_TOPIC: virtual-bank-logs
+      JWT_KEYSTORE_PASSWORD: ${JWT_KEYSTORE_PASSWORD}
 
 
     depends_on:

@@ -7,6 +7,8 @@ import com.User_Service.exception.DuplicateUserException;
 import com.User_Service.exception.InvalidCredentialsException;
 import com.User_Service.exception.UserNotFoundException;
 import com.User_Service.repository.UserRepository;
+import com.User_Service.security.JwtService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,15 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
     @Transactional
     public RegisterResponse register(RegisterRequest request) {
         if (userRepository.existsByUsername(request.username())) {
@@ -70,10 +70,11 @@ public class UserService {
                     "Invalid username or password."
             );
         }
-
+        String token = jwtService.generateToken(user);
         return new LoginResponse(
                 user.getId(),
-                user.getUsername()
+                user.getUsername(),
+                token
         );
     }
 
